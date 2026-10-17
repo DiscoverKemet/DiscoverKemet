@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Egyptian pyramids at dusk</title>
+  <desc id="desc">A warm gold sun sets behind the pyramids on a dark desert horizon.</desc>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#28251f"/><stop offset=".55" stop-color="#806143"/><stop offset="1" stop-color="#d3a96d"/></linearGradient>
+    <linearGradient id="dune" x2="0" y2="1"><stop stop-color="#705234"/><stop offset="1" stop-color="#171512"/></linearGradient>
+    <linearGradient id="stone" x2="1" y2=".2"><stop stop-color="#b18b56"/><stop offset=".48" stop-color="#ddbd7b"/><stop offset="1" stop-color="#786044"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#efd092" stop-opacity=".48"/><stop offset="1" stop-color="#efd092" stop-opacity="0"/></radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <circle cx="615" cy="440" r="320" fill="url(#glow)"/><circle cx="615" cy="440" r="84" fill="#dfbd7e" opacity=".85"/>
+  <path d="M0 685 Q250 590 520 690 T1050 665 T1600 680 V900 H0Z" fill="url(#dune)"/>
+  <path d="M90 735 350 430 620 735Z" fill="url(#stone)" opacity=".88"/><path d="M350 430 620 735H350Z" fill="#53412e" opacity=".55"/>
+  <path d="M485 745 735 480 990 745Z" fill="#b99560"/><path d="M735 480 990 745H735Z" fill="#51402f" opacity=".62"/>
+  <path d="M1110 735 1260 580 1410 735Z" fill="#a88758" opacity=".8"/><path d="M1260 580 1410 735H1260Z" fill="#4c3c2b" opacity=".55"/>
+  <path d="M0 797 Q270 710 560 790 T1110 780 T1600 755 V900 H0Z" fill="#171512" opacity=".83"/>
+  <g fill="#f0d69b" opacity=".65"><circle cx="150" cy="180" r="2"/><circle cx="410" cy="140" r="1.5"/><circle cx="1010" cy="160" r="2"/><circle cx="1340" cy="235" r="1.5"/><circle cx="1510" cy="115" r="2"/><circle cx="830" cy="105" r="1.5"/></g>
+</svg>
+
