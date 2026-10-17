@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#11110f" />
+  <meta name="description" content="Misr 360 — explore Egypt's heritage, plan a visit, and learn through interactive quizzes." />
+  <title>Misr 360 | ذاكرة مصر الحيّة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="config.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="announcement"><span class="live-dot"></span><span data-i18n="announcement">اكتشف حكايات مصر، من قلب القاهرة إلى ضفاف النيل</span><span class="announcement-spark">✳</span></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Misr 360 home"><span class="brand-mark">𓂀</span><span class="brand-copy"><strong>MISR <i>360</i></strong><small data-i18n="brandSub">ذاكرة مصر الحيّة</small></span></a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a class="nav-link active" href="#sites" data-i18n="navExplore">استكشف</a><a class="nav-link" href="#map" data-i18n="navMap">الخريطة</a><a class="nav-link" href="#quiz" data-i18n="navQuiz">اختبر معلوماتك</a><a class="nav-link" href="#about" data-i18n="navAbout">عن المنصة</a>
+    </nav>
+    <div class="header-actions"><button class="lang-toggle" id="languageToggle" type="button">EN <span>⌄</span></button><button class="account-btn" id="accountButton" type="button"><span class="account-icon">♙</span><span data-i18n="signIn">دخول</span></button><button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button></div>
+  </header>
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-image" role="img" aria-label="Pyramids of Giza at sunset"></div><div class="hero-shade"></div>
+      <div class="hero-grain"></div><div class="hero-content">
+        <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="heroEyebrow">رحلة عبر ٧٬٠٠٠ عام من الحضارة</span><span class="eyebrow-line"></span></div>
+        <h1 data-i18n="heroTitle">كل حكاية<br/><em>تبدأ من هنا</em></h1><p data-i18n="heroDescription">من أهرامات الجيزة إلى معابد الأقصر — اكتشف مصر بعيون جديدة، وتعرّف على أسرارها موقعًا بعد موقع.</p>
+        <div class="hero-actions"><a class="button button-gold" href="#sites"><span data-i18n="heroCta">ابدأ رحلتك</span><span class="button-arrow">←</span></a><a class="text-link" href="#map"><span class="play-circle">⌖</span><span data-i18n="heroMap">استكشف الخريطة</span></a></div>
+      </div>
+      <div class="hero-side-label"><span>EGYPT • HERITAGE • STORIES</span><span class="side-label-line"></span></div>
+      <a class="hero-credit" href="https://commons.wikimedia.org/wiki/File:Giza-pyramids.JPG" target="_blank" rel="noreferrer">Public domain · CC0 dedication</a>
+      <div class="hero-bottom"><div class="hero-coordinate">29°58′45″N &nbsp; 31°08′03″E</div><div class="hero-scroll"><span data-i18n="scroll">مرّر للاستكشاف</span><span class="scroll-line"></span></div><div class="hero-count"><strong>01</strong><span id="heroSiteTotal"> / 33</span><span class="count-bar"></span></div></div>
+    </section>
+    <section class="stats-strip" aria-label="Platform highlights"><div class="stat"><span class="stat-icon">✳</span><div><strong>7,000+</strong><span data-i18n="statYears">عام من التاريخ</span></div></div><div class="stat"><span class="stat-icon">⌖</span><div><strong id="statSiteTotal">33</strong><span data-i18n="statSites">موقعًا أثريًا</span></div></div><div class="stat"><span class="stat-icon">◇</span><div><strong>2</strong><span data-i18n="statLanguages">لغتان، حكاية واحدة</span></div></div><div class="stat-note" data-i18n="statNote">رحلتك تبدأ باكتشاف واحد.</div></section>
+    <section class="section discoveries" id="sites"><div class="section-heading"><div><span class="section-kicker" data-i18n="sitesKicker">أماكن صنعت التاريخ</span><h2 data-i18n="sitesHeading">اكتشف <em>مصر</em></h2><p data-i18n="sitesSub">كل حجر يحمل حكاية. اختر وجهتك التالية.</p></div><a class="all-link" href="#map"><span data-i18n="allSites">عرض كل المواقع</span><span>↗</span></a></div>
+      <div class="filter-row" id="filterRow"><button class="filter-chip selected" data-filter="all" data-i18n="filterAll">الكل <span id="siteCountValue">40</span></button><button class="filter-chip" data-filter="north" data-i18n="filterNorth">مصر السفلى</button><button class="filter-chip" data-filter="south" data-i18n="filterSouth">مصر العليا</button><button class="filter-chip" data-filter="central" data-i18n="filterCentral">الصحراء والبحر الأحمر</button><button class="filter-chip" data-filter="museum" data-i18n="filterMuseums">متاحف</button><label class="search-box"><span>⌕</span><input id="siteSearch" type="search" data-placeholder="searchPlaceholder" placeholder="ابحث عن موقع..."/><kbd>⌘ K</kbd></label></div>
+      <div class="site-grid" id="siteGrid" aria-live="polite"></div>
+      <div class="empty-state" id="emptyState" hidden data-i18n="emptyState">لا توجد نتائج. جرّب كلمة بحث مختلفة.</div>
+    </section>
+    <section class="map-section" id="map"><div class="map-copy"><span class="section-kicker" data-i18n="mapKicker">مصر على خريطتك</span><h2 data-i18n="mapHeading">من النيل<br/>إلى <em>التاريخ</em></h2><p data-i18n="mapDescription">خطط لرحلتك القادمة. كل علامة تفتح لك نافذة على موقع أثري وحكايته.</p><div class="map-legend"><span><i class="legend-dot gold"></i><span data-i18n="legendAncient">مواقع أثرية</span></span><span><i class="legend-dot cream"></i><span data-i18n="legendMuseum">متاحف</span></span></div><a class="button button-outline" href="https://www.openstreetmap.org/#map=6/26.8/30.8" target="_blank" rel="noreferrer"><span data-i18n="openMap">افتح خريطة مصر</span><span>↗</span></a></div><div class="map-frame"><div id="heritageMap" aria-label="Interactive map of archaeological sites in Egypt"></div><div class="map-caption"><span class="map-caption-pin">⌖</span><span data-i18n="mapCaption">٢٤ وجهة مختارة في رحلتك</span><span class="map-caption-coord">EGYPT · 26.8° N</span></div></div></section>
+    
+    <section class="quiz-section" id="quiz"><div class="quiz-pattern"></div><div class="quiz-content"><span class="section-kicker" data-i18n="quizKicker">هل تعرف مصر حقًا؟</span><h2 data-i18n="quizHeading">حكاية جديدة<br/>في <em>كل سؤال</em></h2><p data-i18n="quizDescription">اختبارات عن آثار مصر ومدنها وجغرافيتها وطبيعتها، بصيغ وعدد أسئلة مختلف.</p><div class="quiz-meta"><span>✳ <b id="quizQuestionTotal">95</b> <span data-i18n="questions">سؤالًا متنوعًا</span></span><span>◷ <b>05–20</b> <span data-i18n="questions">سؤالًا في الجولة</span></span><span>◇ <b>4</b> <span data-i18n="attempts">مجالات</span></span></div><button class="button button-gold" id="startQuiz"><span data-i18n="quizChoose">اختر اختبارك</span><span class="button-arrow">←</span></button></div><div class="quiz-art" aria-hidden="true"><div class="quiz-sun"></div><div class="quiz-pyramid pyramid-back"></div><div class="quiz-pyramid pyramid-front"></div><div class="quiz-art-mark">𓂀</div></div></section>
+    <section class="newsletter" id="about"><div class="newsletter-mark">𓂀</div><div><span class="section-kicker" data-i18n="newsletterKicker">رحلة لا تنتهي عند هنا</span><h2 data-i18n="newsletterHeading">مصر لديها المزيد.</h2><p data-i18n="newsletterDescription">سجّل دخولك لحفظ المواقع، تتبع نتائجك، والمساهمة في حكاية المنصة.</p></div><button class="button button-outline" id="joinButton"><span data-i18n="joinUs">انضم إلى الرحلة</span><span>↗</span></button></section>
+  </main>
+  <footer class="site-footer"><a class="brand footer-brand" href="#home"><span class="brand-mark">𓂀</span><span class="brand-copy"><strong>MISR <i>360</i></strong><small data-i18n="brandSub">ذاكرة مصر الحيّة</small></span></a><p data-i18n="footerText">مشروع تعليمي مستقل. المعلومات مرتبطة بمصادرها لتتمكن من الاستكشاف أكثر.</p><span>© 2026 MISR 360</span></footer>
+  <div class="modal-backdrop" id="modalBackdrop" hidden><section class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" id="modalClose" aria-label="Close">×</button><div id="modalBody"></div></section></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
+
