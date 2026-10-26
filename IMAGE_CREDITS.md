@@ -1,8 +1,8 @@
-# Misr 360 image sources and public-domain status
+# DiscoverKemet.com image sources and public-domain status
 
 Every image now uses a Wikimedia Commons file page marked CC0/public-domain or Public Domain aark. CC0 is the creator's public-domain dedication; Public Domain aark identifies material without known copyright restrictions. The creators and collection records remain credited as provenance, even where attribution is not legally required. Check the individual source page before reuse because a Commons upload is not itself a license.
 
-| Misr 360 place | Image/source record | Status |
+| DiscoverKemet.com place | Image/source record | Status |
 |---|---|---|
 | giza | [Giza-pyramids.JPG](https://commons.wikimedia.org/wiki/File:Giza-pyramids.JPG) | Robster1983 · CC0 public domain dedication |
 | saqqara | [Saqqara_Necropolis.jpg](https://commons.wikimedia.org/wiki/File:Saqqara_Necropolis.jpg) | LisethHatta17 · CC0 public domain dedication |
