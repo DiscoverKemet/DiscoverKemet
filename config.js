@@ -1,6 +1,5 @@
-/* Supabase settings. Leave empty to run the complete local demo. */
+/* Supabase settings for the public Misr 360 client. */
 window.MASR_CONFIG = {
-  supabaseUrl: "",
-  supabaseAnonKey: ""
+  supabaseUrl: "https://gicuysturyqvgmnlczcs.supabase.co",
+  supabaseAnonKey: "sb_publishable_zBIzj76JoT_JaYMCMtSpXQ_lij_wYV1"
 };
-
