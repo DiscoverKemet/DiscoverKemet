@@ -31,7 +31,9 @@
       open: 'Open source ↗'
     }
   };
+  let currentStatus = ['checking', undefined];
   function setStatus(state, detail) {
+    currentStatus = [state, detail];
     const node = statusNode();
     if (!node) return;
     const copy = labels[language()];
@@ -119,10 +121,24 @@
       if (site.imagePage) entries.push({name, kind: site.imageCredit ? copy.photo + ' — ' + site.imageCredit : copy.photo, url: site.imagePage});
       if (site.imageLicense) entries.push({name, kind: copy.license, url: site.imageLicense});
     });
+    document.querySelectorAll('#siteGrid .site-card').forEach(card => {
+      const name = card.querySelector('h3')?.textContent?.trim();
+      const source = card.querySelector('.site-meta a[data-source]');
+      const photo = card.querySelector('.image-credit[data-source]');
+      if (name && source?.href) entries.push({name, kind: copy.info, url: source.href});
+      if (name && photo?.href) entries.push({name, kind: copy.photo, url: photo.href});
+    });
+    [
+      ['UNESCO World Heritage Centre', 'https://whc.unesco.org/'],
+      ['Egyptian Ministry of Tourism and Antiquities', 'https://egymonuments.gov.eg/'],
+      ['Experience Egypt — official tourism portal', 'https://www.experienceegypt.eg/'],
+      ['Wikimedia Commons — image records', 'https://commons.wikimedia.org/'],
+      ['OpenStreetMap — map data and attribution', 'https://www.openstreetmap.org/copyright']
+    ].forEach(([name, url]) => entries.push({name, kind: copy.info, url}));
     const seen = new Set();
     root.replaceChildren();
     entries.forEach(item => {
-      const key = item.name + '|' + item.kind + '|' + item.url;
+      const key = item.name + '|' + item.url;
       if (seen.has(key)) return;
       seen.add(key);
       const li = document.createElement('li');
@@ -159,11 +175,11 @@
     enhanceCards(document);
     enhanceModal(document);
     const cards = document.getElementById('siteGrid');
-    if (cards) new MutationObserver(() => enhanceCards(cards)).observe(cards, {childList: true, subtree: true});
+    if (cards) new MutationObserver(() => { enhanceCards(cards); renderSources(); }).observe(cards, {childList: true, subtree: true});
     const modal = document.getElementById('modal');
     if (modal) new MutationObserver(() => enhanceModal(modal)).observe(modal, {childList: true, subtree: true});
     document.getElementById('languageToggle')?.addEventListener('click', () => {
-      setTimeout(() => { enhanceCards(document); enhanceModal(document); renderSources(); }, 0);
+      setTimeout(() => { setStatus(currentStatus[0], currentStatus[1]); enhanceCards(document); enhanceModal(document); renderSources(); }, 0);
     });
   }, { once: true });
 })();
