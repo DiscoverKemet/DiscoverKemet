@@ -1,4 +1,4 @@
-# Misr 360 | ذاكرة مصر الحيّة
+# DiscoverKemet.com | ذاكرة مصر الحيّة
 
 A responsive Arabic/English heritage discovery website for learning about archaeological sites across Egypt. It includes searchable site cards, a map, a five-question quiz, sign-in, saved discoveries, quiz history, and role-based site management when connected to Supabase.
 
