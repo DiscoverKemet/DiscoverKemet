@@ -1,5 +1,9 @@
 # DiscoverKemet.com image sources and public-domain status
 
+## Place galleries
+
+Each place detail view searches Wikimedia Commons for up to five additional photographs. The search accepts only files marked CC0 or public domain, filters results whose file titles refer to people, and displays the Commons file page, creator credit when available, and license link beside each image. Loaded image and license records are added to the site's Sources and References list. The number may be below five when Commons does not return five matching public-domain files; the site does not substitute copyrighted material or repeat the same image to fill the gallery.
+
 Every image now uses a Wikimedia Commons file page marked CC0/public-domain or Public Domain aark. CC0 is the creator's public-domain dedication; Public Domain aark identifies material without known copyright restrictions. The creators and collection records remain credited as provenance, even where attribution is not legally required. Check the individual source page before reuse because a Commons upload is not itself a license.
 
 | DiscoverKemet.com place | Image/source record | Status |
