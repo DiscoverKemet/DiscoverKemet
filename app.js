@@ -580,7 +580,7 @@ const SITE_DATA = [
     },
     "source": "https://whc.unesco.org/en/list/87/"
   },
-[
+
   {
     "id": "dendera",
     "name": {
@@ -917,7 +917,7 @@ const SITE_DATA = [
     },
     "type": "ancient"
   }
-]
+
   ,{
     "id":"nmec","name":{"ar":"المتحف القومي للحضارة المصرية","en":"National Museum of Egyptian Civilization"},"region":"north","area":{"ar":"الفسطاط · القاهرة","en":"Fustat · Cairo"},"type":"museum","lat":30.0061,"lng":31.2497,"period":{"ar":"افتتح عام ٢٠٢١","en":"Opened in 2021"},"image":"https://commons.wikimedia.org/wiki/Special:FilePath/%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A_%D9%84%D9%84%D8%AD%D8%B6%D8%A7%D8%B1%D9%87_%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D9%87_02.jpg?width=1000","imageCredit":"Nada hussam · CC0","imageLicense":"https://creativecommons.org/publicdomain/zero/1.0/","imagePage":"https://commons.wikimedia.org/wiki/File:%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D9%81_%D8%A7%D9%84%D9%82%D9%88%D9%85%D9%8A_%D9%84%D9%84%D8%AD%D8%B6%D8%A7%D8%B1%D9%87_%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D9%87_02.jpg","source":"https://egymonuments.gov.eg/en/museums/national-museum-of-egyptian-civilization-nmec","description":{"ar":"يعرض المتحف تاريخ الحضارة المصرية عبر عصورها، وتضم مجموعته قاعة المومياوات الملكية وقاعة للنسيج المصري.","en":"The museum presents Egyptian civilization across its eras, including galleries for the royal mummies and Egyptian textiles."}
   },
