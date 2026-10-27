@@ -196,21 +196,21 @@
       if (title) title.textContent = en ? 'Preparing your journey' : 'نجهّز رحلتك';
       if (description) description.textContent = en ? 'Loading destinations and the map, then checking the database.' : 'نحمّل الوجهات والخريطة ونتحقق من قاعدة البيانات.';
       const state = status?.dataset.state || 'checking';
-      if (status && state !== 'checking' && document.readyState === 'complete') {
-        if (note) note.textContent = state === 'loaded' ? (en ? 'Database ready. Opening your guide…' : 'قاعدة البيانات جاهزة، جارٍ فتح الدليل…') : (en ? 'Opening the guide; connection details are shown below.' : 'جارٍ فتح الدليل، وتظهر حالة الاتصال أسفل الصفحة.');
+      if (Date.now() - started >= 500 && document.readyState !== 'loading') {
+        if (note) note.textContent = state === 'loaded' ? (en ? 'Database ready. Opening your guide…' : 'قاعدة البيانات جاهزة، جارٍ فتح الدليل…') : (en ? 'Opening the guide while data finishes loading…' : 'جارٍ فتح الدليل بينما يكتمل تحميل البيانات…');
         hide();
         return;
       }
-      if (Date.now() - started > 18000) {
+      if (Date.now() - started > 1800) {
         if (note) note.textContent = en ? 'Taking longer than expected; opening the guide now.' : 'استغرق التحميل وقتًا أطول من المتوقع؛ جارٍ فتح الدليل.';
         hide();
         return;
       }
       if (note) note.textContent = en ? 'Loading the site and checking the database…' : 'جارٍ تحميل الموقع والتحقق من قاعدة البيانات…';
-      window.setTimeout(poll, 200);
+      window.setTimeout(poll, 100);
     };
     poll();
-    window.setTimeout(() => { if (loader && !loader.classList.contains('is-hidden')) hide(); }, 20000);
+    window.setTimeout(() => { if (loader && !loader.classList.contains('is-hidden')) hide(); }, 1200);
   }
   document.addEventListener('DOMContentLoaded', waitForStartup, { once: true });
 })();
