@@ -4,19 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#11110f" />
-  <meta name="description" content="DiscoverKemet.com — explore Egypt's heritage, plan a visit, and learn through interactive quizzes." />
+  <meta name="description" content="DiscoverKemet.com — a guide to Egypt’s historic sites, museums, maps, and visitor information." />
   <title>DiscoverKemet.com | ذاكرة مصر الحيّة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="site-extras.css?v=4" />
+  <link rel="stylesheet" href="site-extras.css?v=6" />
   <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="config.js"></script>
   <script src="data-sources.js"></script>
-  <script src="site-extras.js?v=4" defer></script>
+  <script src="site-extras.js?v=6" defer></script>
   <script src="app.js?v=3" defer></script>
 </head>
 <body class="app-loading">
@@ -33,7 +33,7 @@
   <main>
     <section class="hero" id="home">
       <div class="hero-image" role="img" aria-label="Pyramids of Giza at sunset"></div><div class="hero-shade"></div>
-      <div class="hero-grain"></div><div class="hero-content">
+      <div class="hero-content">
         <div class="eyebrow"><span class="eyebrow-line"></span><span data-i18n="heroEyebrow">رحلة عبر ٧٬٠٠٠ عام من الحضارة</span><span class="eyebrow-line"></span></div>
         <h1 data-i18n="heroTitle">كل حكاية<br/><em>تبدأ من هنا</em></h1><p data-i18n="heroDescription">من أهرامات الجيزة إلى معابد الأقصر — اكتشف مصر بعيون جديدة، وتعرّف على أسرارها موقعًا بعد موقع.</p>
         <div class="hero-actions"><a class="button button-gold" href="#sites"><span data-i18n="heroCta">ابدأ رحلتك</span><span class="button-arrow">←</span></a><a class="text-link" href="#map"><span class="play-circle">⌖</span><span data-i18n="heroMap">استكشف الخريطة</span></a></div>
@@ -51,7 +51,7 @@
     <section class="section visited-section" id="visited" aria-live="polite"><div class="section-heading"><div><span class="section-kicker">رحلتك</span><h2 id="visitedTitle">الأماكن التي زرتها</h2><p id="visitedSubtitle">سجّل زيارتك بنفسك من صفحة المكان لتجده هنا لاحقًا.</p></div><button class="button button-outline clear-visited" id="clearVisited" type="button" hidden>مسح سجل الزيارات</button></div><p class="visited-count" id="visitedCount">سجل الزيارات: 0</p><p class="visited-storage" id="visitedStorage">يُحفظ السجل على هذا الجهاز.</p><div class="site-grid" id="visitedGrid"></div><p class="visited-empty" id="visitedEmpty" hidden>لم تسجّل زيارة بعد. افتح أي مكان واضغط «تمت الزيارة».</p></section>
     <section class="map-section" id="map"><div class="map-copy"><span class="section-kicker" data-i18n="mapKicker">مصر على خريطتك</span><h2 data-i18n="mapHeading">من النيل<br/>إلى <em>التاريخ</em></h2><p data-i18n="mapDescription">خطط لرحلتك القادمة. كل علامة تفتح لك نافذة على موقع أثري وحكايته.</p><div class="map-legend"><span><i class="legend-dot gold"></i><span data-i18n="legendAncient">مواقع أثرية</span></span><span><i class="legend-dot cream"></i><span data-i18n="legendMuseum">متاحف</span></span></div><p id="databaseStatus" class="database-status" role="status" aria-live="polite">جارٍ التحقق من اتصال قاعدة البيانات…</p><a class="button button-outline" href="https://www.openstreetmap.org/#map=6/26.8/30.8" target="_blank" rel="noreferrer"><span data-i18n="openMap">افتح خريطة مصر</span><span>↗</span></a></div><div class="map-frame"><div id="heritageMap" aria-label="Interactive map of archaeological sites in Egypt"></div><div class="map-caption"><span class="map-caption-pin">⌖</span><span data-i18n="mapCaption">٢٤ وجهة مختارة في رحلتك</span><span class="map-caption-coord">EGYPT · 26.8° N</span></div></div></section>
     
-    <section class="quiz-section" id="quiz"><div class="quiz-pattern"></div><div class="quiz-content"><span class="section-kicker" data-i18n="quizKicker">هل تعرف مصر حقًا؟</span><h2 data-i18n="quizHeading">حكاية جديدة<br/>في <em>كل سؤال</em></h2><p data-i18n="quizDescription">اختبارات عن آثار مصر ومدنها وجغرافيتها وطبيعتها، بصيغ وعدد أسئلة مختلف.</p><div class="quiz-meta"><span>✳ <b id="quizQuestionTotal">95</b> <span data-i18n="questions">سؤالًا متنوعًا</span></span><span>◷ <b>05–20</b> <span data-i18n="questions">سؤالًا في الجولة</span></span><span>◇ <b>4</b> <span data-i18n="attempts">مجالات</span></span></div><button class="button button-gold" id="startQuiz"><span data-i18n="quizChoose">اختر اختبارك</span><span class="button-arrow">←</span></button></div><div class="quiz-art" aria-hidden="true"><div class="quiz-sun"></div><div class="quiz-pyramid pyramid-back"></div><div class="quiz-pyramid pyramid-front"></div><div class="quiz-art-mark">𓂀</div></div></section>
+    <section class="quiz-section" id="quiz"><div class="quiz-content"><span class="section-kicker" data-i18n="quizKicker">هل تعرف مصر حقًا؟</span><h2 data-i18n="quizHeading">حكاية جديدة<br/>في <em>كل سؤال</em></h2><p data-i18n="quizDescription">اختبارات عن آثار مصر ومدنها وجغرافيتها وطبيعتها، بصيغ وعدد أسئلة مختلف.</p><div class="quiz-meta"><span>✳ <b id="quizQuestionTotal">95</b> <span data-i18n="questions">سؤالًا متنوعًا</span></span><span>◷ <b>05–20</b> <span data-i18n="questions">سؤالًا في الجولة</span></span><span>◇ <b>4</b> <span data-i18n="attempts">مجالات</span></span></div><button class="button button-gold" id="startQuiz"><span data-i18n="quizChoose">اختر اختبارك</span><span class="button-arrow">←</span></button></div><div class="quiz-art" aria-hidden="true"><div class="quiz-sun"></div><div class="quiz-pyramid pyramid-back"></div><div class="quiz-pyramid pyramid-front"></div><div class="quiz-art-mark">𓂀</div></div></section>
     <section class="newsletter" id="about"><div class="newsletter-mark">𓂀</div><div><span class="section-kicker" data-i18n="newsletterKicker">رحلة لا تنتهي عند هنا</span><h2 data-i18n="newsletterHeading">مصر لديها المزيد.</h2><p data-i18n="newsletterDescription">سجّل دخولك لحفظ المواقع، تتبع نتائجك، والمساهمة في حكاية المنصة.</p></div><button class="button button-outline" id="joinButton"><span data-i18n="joinUs">انضم إلى الرحلة</span><span>↗</span></button></section>
   </main>
   <details class="source-details" id="sourceDetails"><summary id="sourceTitle">المصادر والمراجع</summary><p id="sourceIntro">مصادر المعلومات والصور وتراخيصها لكل وجهة.</p><ul class="source-list" id="sourceList"></ul></details>
