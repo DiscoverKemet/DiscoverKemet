@@ -47,6 +47,45 @@
       visitAdded: 'Added to your visited places.', visitRemoved: 'Removed from your visited places.', visitStorage: 'Saved on this device.'
     }
   };
+
+  const copyOverrides = {
+    ar: {
+      announcement: 'دليل المواقع الأثرية والمتاحف والوجهات الطبيعية في مصر', brandSub: 'دليل السياحة والآثار في مصر',
+      heroEyebrow: 'معلومات عملية عن المواقع المصرية', heroTitle: 'اكتشف<br/><em>مصر</em>',
+      heroDescription: 'اعرف تاريخ كل وجهة وموقعها على الخريطة ومصادر معلوماتها قبل الزيارة.',
+      heroCta: 'تصفح الوجهات', heroMap: 'عرض الخريطة', scroll: 'اكتشف الوجهات', statNote: 'اختر وجهة لعرض تفاصيلها.',
+      sitesKicker: 'دليل الوجهات', sitesHeading: 'أماكن <em>للزيارة</em>',
+      sitesSub: 'ابحث حسب المنطقة أو النوع، ثم افتح صفحة المكان لمعرفة التفاصيل والمصادر.', allSites: 'عرض جميع الوجهات',
+      mapKicker: 'المواقع على الخريطة', mapHeading: 'خريطة<br/><em>مصر</em>',
+      mapDescription: 'اختر علامة لعرض موقع الوجهة وإحداثياتها.', openMap: 'فتح خريطة أكبر',
+      quizKicker: 'أسئلة عن مصر', quizHeading: 'اختبر<br/><em>معلوماتك</em>',
+      quizDescription: 'اختر مجال الأسئلة وعددها. يظهر مصدر الإجابة بعد كل سؤال.',
+      newsletterKicker: 'حساب المستخدم', newsletterHeading: 'احفظ الأماكن التي تهمك',
+      newsletterDescription: 'أنشئ حسابًا لحفظ الوجهات ومتابعة نتائج الاختبارات.', joinUs: 'إنشاء حساب',
+      footerText: 'تجد معلومات كل وجهة وروابط مصادرها في صفحة المكان.'
+    },
+    en: {
+      announcement: 'A guide to Egypt’s archaeological sites, museums, and natural destinations', brandSub: 'Egypt heritage and travel guide',
+      heroEyebrow: 'Practical information about places in Egypt', heroTitle: 'Explore<br/><em>Egypt</em>',
+      heroDescription: 'Check a destination’s history, map location, and information sources before you visit.',
+      heroCta: 'Browse destinations', heroMap: 'View the map', scroll: 'Browse destinations', statNote: 'Choose a destination to view its details.',
+      sitesKicker: 'Destination guide', sitesHeading: 'Places to <em>visit</em>',
+      sitesSub: 'Search by region or type, then open a place to view details and sources.', allSites: 'View all destinations',
+      mapKicker: 'Destinations on the map', mapHeading: 'Map of<br/><em>Egypt</em>',
+      mapDescription: 'Select a marker to see a destination and its coordinates.', openMap: 'Open larger map',
+      quizKicker: 'Questions about Egypt', quizHeading: 'Check your<br/><em>knowledge</em>',
+      quizDescription: 'Choose a topic and question count. The answer source appears after each question.',
+      newsletterKicker: 'Your account', newsletterHeading: 'Keep track of places you want to visit',
+      newsletterDescription: 'Create an account to save destinations and track quiz results.', joinUs: 'Create account',
+      footerText: 'Each destination page includes its information and source links.'
+    }
+  };
+  function applyCopyOverrides() {
+    if (typeof COPY === 'undefined') return;
+    Object.assign(COPY.ar, copyOverrides.ar);
+    Object.assign(COPY.en, copyOverrides.en);
+  }
+
   let currentStatus = ['checking', undefined];
   function setStatus(state, detail) {
     currentStatus = [state, detail];
@@ -397,6 +436,7 @@
     };
   }
   document.addEventListener('DOMContentLoaded', () => {
+    applyCopyOverrides();
     initializeVisitedPage();
     renderSources();
     enhanceCards(document);
