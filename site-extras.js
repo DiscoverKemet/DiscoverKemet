@@ -14,7 +14,11 @@
       info: 'مصدر المعلومات',
       photo: 'مصدر الصورة',
       license: 'الترخيص',
-      open: 'افتح المصدر ↗'
+      open: 'افتح المصدر ↗',
+      galleryTitle: 'صور المكان', galleryLoading: 'جارٍ البحث عن صور للموقع من مصادر مفتوحة…',
+      galleryEmpty: 'لم نعثر حاليًا على خمس صور متاحة برخصة الملكية العامة أو CC0 لهذا المكان.',
+      galleryError: 'تعذّر تحميل الصور الآن. اضغط هنا للمحاولة مرة أخرى عند توفر الإنترنت.', photoCredit: 'المصوّر', photoLicense: 'الترخيص',
+      galleryCount: n => n + ' صور متاحة — تُستبعد النتائج التي تذكر أشخاصًا في عنوانها'
     },
     en: {
       checking: 'Checking database connection…',
@@ -28,7 +32,11 @@
       info: 'Information source',
       photo: 'Image source',
       license: 'License',
-      open: 'Open source ↗'
+      open: 'Open source ↗',
+      galleryTitle: 'Place photos', galleryLoading: 'Finding openly licensed photos of this place…',
+      galleryEmpty: 'Fewer than five public-domain or CC0 photos are currently available for this place.',
+      galleryError: 'Photos could not be loaded. Click here to retry when online.', photoCredit: 'Photographer', photoLicense: 'License',
+      galleryCount: n => n + ' available photos · titles mentioning people are filtered out'
     }
   };
   let currentStatus = ['checking', undefined];
@@ -108,6 +116,134 @@
     if (!body) return;
     const coords = [...body.querySelectorAll('p')].map(p => coordinatePair(p.textContent)).find(Boolean);
     addMapLink(body, coords, 'modal-map-link');
+    const title = body.querySelector('#modalTitle');
+    const records = window.DISCOVER_KEMET_SOURCES || [];
+    const current = records.find(site => [site.name?.ar, site.name?.en].includes(title?.textContent?.trim()));
+    if (current && !body.querySelector('[data-photo-gallery]')) loadPhotoGallery(body, current);
+  }
+  const galleryCache = new Map();
+  // These existing thumbnails were checked and contain people, so keep them out of the galleries.
+  const peopleInExistingPhoto = new Set(['saqqara','memphis','islamic-cairo','aby-simbel','hatshepsut','dendera','pompeys-pillar','unfinished-obelisk','saint-catherine','nmec','bibliotheca-alexandrina','al-muizz-street','montaza-gardens','white-desert','sharm-el-sheikh','dahab-blue-hole','grand-egyptian-museum']);
+  const prohibitedPhotoTerms = /\b(people|person|man|woman|men|women|tourist|tourists|crowd|crowds|selfie|portrait|group|wedding|meeting|president|minister)\b|سائح|سياح|اشخاص|أشخاص|رجل|امرأة|حشد|جمهور|اجتماع|رئيس|وزير/i;
+  const unescapeMarkup = value => { const node = document.createElement('textarea'); node.innerHTML = String(value || ''); return node.value.trim(); };
+  const photoLicenseAllowed = value => /\bCC0\b|public domain|public domain mark|\bPD-(?:old|US|USGov)\b/i.test(String(value || ''));
+  function addGalleryCredit(site, photo) {
+    const list = window.DISCOVER_KEMET_GALLERY_CREDITS || (window.DISCOVER_KEMET_GALLERY_CREDITS = []);
+    if (!list.some(item => item.page === photo.page)) list.push({id: site.id, name: site.name, page: photo.page, license: photo.license, licenseUrl: photo.licenseUrl, artist: photo.artist});
+    renderSources();
+  }
+  function textNode(tag, value, className) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    node.textContent = value;
+    return node;
+  }
+  function renderPhotoGallery(body, site, photos) {
+    if (!body.isConnected || body.querySelector('[data-photo-gallery]')) return;
+    const copy = labels[language()];
+    const section = document.createElement('section');
+    section.className = 'place-photo-gallery';
+    section.dataset.photoGallery = site.id;
+    section.setAttribute('aria-label', copy.galleryTitle);
+    section.append(textNode('h3', copy.galleryTitle));
+    section.append(textNode('p', copy.galleryCount(photos.length), 'gallery-note'));
+    if (!photos.length) section.append(textNode('p', copy.galleryEmpty, 'gallery-message'));
+    const grid = document.createElement('div');
+    grid.className = 'place-photo-grid';
+    photos.forEach((photo, index) => {
+      addGalleryCredit(site, photo);
+      const card = document.createElement('figure');
+      card.className = 'place-photo-item';
+      const link = document.createElement('a');
+      link.href = photo.page;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', copy.open + ' ' + (index + 1));
+      const image = document.createElement('img');
+      image.loading = 'lazy';
+      image.src = photo.thumb;
+      image.alt = (site.name?.[language()] || site.name?.en || site.id) + ' — ' + (index + 1);
+      link.append(image);
+      card.append(link);
+      const caption = document.createElement('figcaption');
+      const name = document.createElement('a');
+      name.href = photo.page;
+      name.target = '_blank';
+      name.rel = 'noopener noreferrer';
+      name.textContent = photo.title.replace(/^File:/, '');
+      caption.append(name, textNode('small', copy.photoCredit + ': ' + (photo.artist || 'Wikimedia Commons')),
+        textNode('small', copy.photoLicense + ': ' + photo.license));
+      card.append(caption);
+      grid.append(card);
+    });
+    if (photos.length) section.append(grid);
+    const mapLink = body.querySelector('.modal-map-link');
+    body.insertBefore(section, mapLink || null);
+  }
+  async function fetchPublicDomainPhotos(site, body) {
+    const english = site.name?.en || site.id;
+    const search = 'filetype:bitmap ' + english + ' Egypt -people -person -tourist -tourists -man -woman -crowd -portrait';
+    const url = 'https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=' + encodeURIComponent(search) + '&gsrnamespace=6&gsrlimit=50&prop=imageinfo&iiprop=url%7Cextmetadata&iiurlwidth=720&format=json&origin=*';
+    const response = await fetch(url, {headers: {'Accept': 'application/json'}});
+    if (!response.ok) throw new Error('Wikimedia Commons returned ' + response.status);
+    const data = await response.json();
+    const pages = Object.values(data.query?.pages || {}).sort((a, b) => (a.index || 0) - (b.index || 0));
+    const photos = [];
+    const seen = new Set();
+    const sourceRecord = (window.DISCOVER_KEMET_SOURCES || []).find(item => item.id === site.id);
+    const cardImage = document.querySelector('#siteGrid [data-site-id="' + CSS.escape(site.id) + '"] .site-photo img');
+    if (!peopleInExistingPhoto.has(site.id) && sourceRecord?.imagePage && photoLicenseAllowed(sourceRecord.imageCredit) && cardImage?.src) {
+      photos.push({title: (site.name?.en || site.id) + ' (existing site photo)', thumb: cardImage.src, page: sourceRecord.imagePage,
+        artist: sourceRecord.imageCredit, license: sourceRecord.imageCredit.split('·').pop().trim(), licenseUrl: sourceRecord.imageLicense});
+      seen.add(sourceRecord.imagePage);
+    }
+    for (const page of pages) {
+      const info = page.imageinfo?.[0];
+      const meta = info?.extmetadata || {};
+      const license = unescapeMarkup(meta.LicenseShortName?.value);
+      if (!info?.thumburl || !info?.descriptionurl || !photoLicenseAllowed(license) || prohibitedPhotoTerms.test(page.title)) continue;
+      if (seen.has(page.title) || seen.has(info.descriptionurl)) continue;
+      seen.add(page.title);
+      seen.add(info.descriptionurl);
+      photos.push({title: page.title, thumb: info.thumburl, page: info.descriptionurl,
+        artist: unescapeMarkup(meta.Artist?.value || meta.Credit?.value).replace(/\s+/g, ' ').slice(0, 160),
+        license, licenseUrl: meta.LicenseUrl?.value || 'https://creativecommons.org/publicdomain/zero/1.0/'});
+      if (photos.length === 5) break;
+    }
+    if (photos[0] && peopleInExistingPhoto.has(site.id)) {
+      const image = document.querySelector('#siteGrid [data-site-id="' + CSS.escape(site.id) + '"] .site-photo img');
+      if (image) image.src = photos[0].thumb;
+    }
+    return photos;
+  }
+  async function loadPhotoGallery(body, site) {
+    if (body.dataset.galleryLoading === site.id) return;
+    body.dataset.galleryLoading = site.id;
+    const section = document.createElement('section');
+    section.className = 'place-photo-gallery';
+    section.dataset.photoGallery = site.id;
+    section.append(textNode('h3', labels[language()].galleryTitle), textNode('p', labels[language()].galleryLoading, 'gallery-message'));
+    body.append(section);
+    try {
+      let photos = galleryCache.get(site.id);
+      if (!photos) {
+        photos = await fetchPublicDomainPhotos(site, body);
+        galleryCache.set(site.id, photos);
+      }
+      if (!body.isConnected || body.dataset.galleryLoading !== site.id) return;
+      section.remove();
+      body.dataset.galleryLoading = '';
+      renderPhotoGallery(body, site, photos);
+    } catch (error) {
+      console.warn('Place photo gallery unavailable:', error);
+      const retry = document.createElement('button');
+      retry.className = 'gallery-retry';
+      retry.type = 'button';
+      retry.textContent = labels[language()].galleryError;
+      retry.addEventListener('click', () => { section.remove(); body.dataset.galleryLoading = ''; galleryCache.delete(site.id); loadPhotoGallery(body, site); });
+      section.replaceChildren(textNode('h3', labels[language()].galleryTitle), retry);
+      body.dataset.galleryLoading = '';
+    }
   }
   function renderSources() {
     const root = document.getElementById('sourceList');
@@ -120,6 +256,11 @@
       if (site.source) entries.push({name, kind: copy.info, url: site.source});
       if (site.imagePage) entries.push({name, kind: site.imageCredit ? copy.photo + ' — ' + site.imageCredit : copy.photo, url: site.imagePage});
       if (site.imageLicense) entries.push({name, kind: copy.license, url: site.imageLicense});
+    });
+    (window.DISCOVER_KEMET_GALLERY_CREDITS || []).forEach(photo => {
+      const name = photo.name?.[language()] || photo.name?.en || photo.id;
+      entries.push({name, kind: copy.photo + ' — ' + (photo.artist || 'Wikimedia Commons'), url: photo.page});
+      entries.push({name, kind: copy.license + ' — ' + photo.license, url: photo.licenseUrl});
     });
     document.querySelectorAll('#siteGrid .site-card').forEach(card => {
       const name = card.querySelector('h3')?.textContent?.trim();
