@@ -11,13 +11,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="site-extras.css?v=3" />
+  <link rel="stylesheet" href="site-extras.css?v=4" />
   <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="config.js"></script>
   <script src="data-sources.js"></script>
-  <script src="site-extras.js?v=3" defer></script>
-  <script src="app.js?v=2" defer></script>
+  <script src="site-extras.js?v=4" defer></script>
+  <script src="app.js?v=3" defer></script>
 </head>
 <body class="app-loading">
   <div class="site-loader" id="siteLoader" role="status" aria-live="polite"><div class="loader-eye">𓂀</div><strong>DiscoverKemet.com</strong><h1>نجهّز رحلتك</h1><p>نحمّل الوجهات والخريطة ونتحقق من قاعدة البيانات.</p><div class="loader-track"><span></span></div><small id="loaderStatus">جارٍ تحميل الموقع…</small></div>
@@ -26,7 +26,7 @@
   <header class="site-header">
     <a class="brand" href="#home" aria-label="DiscoverKemet.com home"><span class="brand-mark">𓂀</span><span class="brand-copy"><strong>Discover<i>Kemet.com</i></strong><small data-i18n="brandSub">ذاكرة مصر الحيّة</small></span></a>
     <nav class="main-nav" aria-label="Main navigation">
-      <a class="nav-link active" href="#sites" data-i18n="navExplore">استكشف</a><a class="nav-link" href="#map" data-i18n="navMap">الخريطة</a><a class="nav-link" href="#quiz" data-i18n="navQuiz">اختبر معلوماتك</a><a class="nav-link" href="#about" data-i18n="navAbout">عن المنصة</a>
+      <a class="nav-link active" href="#sites" data-i18n="navExplore">استكشف</a><a class="nav-link" href="#visited" id="visitedNavLink"><span data-visited-label>الأماكن التي زرتها</span> <span class="visited-nav-count" id="visitedNavCount">0</span></a><a class="nav-link" href="#map" data-i18n="navMap">الخريطة</a><a class="nav-link" href="#quiz" data-i18n="navQuiz">اختبر معلوماتك</a><a class="nav-link" href="#about" data-i18n="navAbout">عن المنصة</a>
     </nav>
     <div class="header-actions"><button class="lang-toggle" id="languageToggle" type="button">EN <span>⌄</span></button><button class="account-btn" id="accountButton" type="button"><span class="account-icon">♙</span><span data-i18n="signIn">دخول</span></button><button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button></div>
   </header>
@@ -48,6 +48,7 @@
       <div class="site-grid" id="siteGrid" aria-live="polite"></div>
       <div class="empty-state" id="emptyState" hidden data-i18n="emptyState">لا توجد نتائج. جرّب كلمة بحث مختلفة.</div>
     </section>
+    <section class="section visited-section" id="visited" aria-live="polite"><div class="section-heading"><div><span class="section-kicker">رحلتك</span><h2 id="visitedTitle">الأماكن التي زرتها</h2><p id="visitedSubtitle">سجّل زيارتك بنفسك من صفحة المكان لتجده هنا لاحقًا.</p></div><button class="button button-outline clear-visited" id="clearVisited" type="button" hidden>مسح سجل الزيارات</button></div><p class="visited-count" id="visitedCount">سجل الزيارات: 0</p><p class="visited-storage" id="visitedStorage">يُحفظ السجل على هذا الجهاز.</p><div class="site-grid" id="visitedGrid"></div><p class="visited-empty" id="visitedEmpty" hidden>لم تسجّل زيارة بعد. افتح أي مكان واضغط «تمت الزيارة».</p></section>
     <section class="map-section" id="map"><div class="map-copy"><span class="section-kicker" data-i18n="mapKicker">مصر على خريطتك</span><h2 data-i18n="mapHeading">من النيل<br/>إلى <em>التاريخ</em></h2><p data-i18n="mapDescription">خطط لرحلتك القادمة. كل علامة تفتح لك نافذة على موقع أثري وحكايته.</p><div class="map-legend"><span><i class="legend-dot gold"></i><span data-i18n="legendAncient">مواقع أثرية</span></span><span><i class="legend-dot cream"></i><span data-i18n="legendMuseum">متاحف</span></span></div><p id="databaseStatus" class="database-status" role="status" aria-live="polite">جارٍ التحقق من اتصال قاعدة البيانات…</p><a class="button button-outline" href="https://www.openstreetmap.org/#map=6/26.8/30.8" target="_blank" rel="noreferrer"><span data-i18n="openMap">افتح خريطة مصر</span><span>↗</span></a></div><div class="map-frame"><div id="heritageMap" aria-label="Interactive map of archaeological sites in Egypt"></div><div class="map-caption"><span class="map-caption-pin">⌖</span><span data-i18n="mapCaption">٢٤ وجهة مختارة في رحلتك</span><span class="map-caption-coord">EGYPT · 26.8° N</span></div></div></section>
     
     <section class="quiz-section" id="quiz"><div class="quiz-pattern"></div><div class="quiz-content"><span class="section-kicker" data-i18n="quizKicker">هل تعرف مصر حقًا؟</span><h2 data-i18n="quizHeading">حكاية جديدة<br/>في <em>كل سؤال</em></h2><p data-i18n="quizDescription">اختبارات عن آثار مصر ومدنها وجغرافيتها وطبيعتها، بصيغ وعدد أسئلة مختلف.</p><div class="quiz-meta"><span>✳ <b id="quizQuestionTotal">95</b> <span data-i18n="questions">سؤالًا متنوعًا</span></span><span>◷ <b>05–20</b> <span data-i18n="questions">سؤالًا في الجولة</span></span><span>◇ <b>4</b> <span data-i18n="attempts">مجالات</span></span></div><button class="button button-gold" id="startQuiz"><span data-i18n="quizChoose">اختر اختبارك</span><span class="button-arrow">←</span></button></div><div class="quiz-art" aria-hidden="true"><div class="quiz-sun"></div><div class="quiz-pyramid pyramid-back"></div><div class="quiz-pyramid pyramid-front"></div><div class="quiz-art-mark">𓂀</div></div></section>
