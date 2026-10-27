@@ -1,6 +1,6 @@
 # DiscoverKemet.com | ذاكرة مصر الحيّة
 
-A responsive Arabic/English heritage discovery website for learning about archaeological sites across Egypt. It includes searchable site cards, a map, a five-question quiz, sign-in, saved discoveries, quiz history, and role-based site management when connected to Supabase.
+A responsive Arabic/English heritage discovery website for learning about archaeological sites across Egypt. It includes searchable destinations, a map, a 30-question quiz with topic and question-format choices, sign-in, saved discoveries, quiz history, and visitor reviews.
 
 ## Run the project
 
