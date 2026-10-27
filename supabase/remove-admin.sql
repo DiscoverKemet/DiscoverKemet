@@ -18,9 +18,12 @@ alter table public.tourist_reviews alter column status set default 'approved';
 alter table public.tourist_reviews drop constraint if exists tourist_reviews_status_check;
 alter table public.tourist_reviews add constraint tourist_reviews_status_check check (status in ('approved','rejected'));
 
+drop policy if exists "Public read approved reviews" on public.tourist_reviews;
+drop policy if exists "Visitors submit reviews" on public.tourist_reviews;
 create policy "Public read approved reviews" on public.tourist_reviews for select to anon, authenticated using (status = 'approved');
 create policy "Visitors submit reviews" on public.tourist_reviews for insert to authenticated with check (user_id = auth.uid() and status = 'approved');
 
+drop policy if exists "Users read own profile" on public.profiles;
 create policy "Users read own profile" on public.profiles for select to authenticated using (id = auth.uid());
 create policy "Users update own display name" on public.profiles for update to authenticated using (id = auth.uid()) with check (id = auth.uid());
 
