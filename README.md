@@ -17,7 +17,7 @@ A responsive Arabic/English heritage discovery website for learning about archae
 
 3. Open <http://localhost:8000>.
 
-The demo works without an account or Supabase. Use **Try visitor (local)** or **Try admin (local)** in the sign-in window to see the two sample roles. Demo accounts are stored only in page memory; they are not real secure accounts. Saved site IDs are kept in this browser's local storage.
+The demo works without an account or Supabase. Use **Try visitor (local)** in the sign-in window. This sample visitor is stored only in page memory and is not a real account. Saved site IDs are kept in this browser's local storage.
 
 The map, web fonts, and site photographs load from third-party services, so they need an internet connection. If map tiles are unavailable, the rest of the site still works.
 
@@ -28,9 +28,9 @@ The map, web fonts, and site photographs load from third-party services, so they
 3. In **Project Settings → API**, copy the Project URL and the **anon/public** key. Never put a `service_role` key in this website.
 4. Paste those two values into [`config.js`](config.js), replacing the empty strings.
 5. Serve the folder from localhost again and create an account. If email confirmation is enabled, confirm the email before signing in.
-6. To make your account an administrator, find its email in Supabase Authentication → Users, then run the final example query in the SQL file with your email substituted. Admin promotion is deliberately an owner-run database action.
+6. If this is an existing database, run [`supabase/remove-admin.sql`](supabase/remove-admin.sql) once in the Supabase SQL Editor to remove the former management role and publish visitor reviews immediately.
 
-Supabase is optional because each student should use their own project and credentials. Do not commit private keys. The website uses Supabase Auth plus database row-level security: everyone can read sites; signed-in users manage their own saved sites and quiz attempts; only a profile with the `admin` role can add, edit, or delete sites. The admin add-site form currently creates an English record and uses a default map point; edit the record in Supabase to enter its Arabic translation and precise coordinates.
+Supabase is optional because each student should use their own project and credentials. Do not commit private keys. The website uses Supabase Auth plus row-level security: everyone can read sites; signed-in users manage their own saved sites and quiz attempts; visitor reviews are published when submitted. There is no site-management panel.
 
 ## Try the features
 
@@ -38,18 +38,18 @@ Supabase is optional because each student should use their own project and crede
 - Search for a site, filter by region or museum, open a card, and follow its source link.
 - Select a map marker to see the site and source. aap tiles are provided by OpenStreetaap.
 - Complete the quiz. Signed-in Supabase users have their score saved in `quiz_attempts`.
-- In demo mode, use the sample visitor/admin buttons to explore the signed-in interface. In a connected project, register a real user and promote one account using the SQL example to enable admin site entry.
+- In demo mode, use the local visitor button to explore the signed-in interface. In a connected project, register a real user to save sites and quiz scores.
 - Press Ctrl+K (or ⌘K) to focus site search.
 
 ## Database at a glance
 
-`profiles` stores a display name and `user`/`admin` role. A database trigger creates a normal user profile at signup. `sites` stores bilingual text as JSON, map coordinates and source URLs. `saved_sites` and `quiz_attempts` are scoped to their owner. RLS is enabled on every table. Never expose the Supabase service-role key in browser code.
+`profiles` stores a display name. A database trigger creates a profile at signup. `sites` stores bilingual text as JSON, map coordinates and source URLs. `saved_sites` and `quiz_attempts` are scoped to their owner. RLS is enabled on every table. Never expose the Supabase service-role key in browser code.
 
 ## Student walkthrough
 
 Start with `index.html`: it defines the sections and page structure. `styles.css` contains the color palette, responsive layouts, and Arabic/English direction rules. `app.js` holds the sample site data, translation text, rendering, map markers, quiz flow, sign-in, and database calls. `config.js` is the only place where a student adds their public Supabase project settings. `supabase/schema.sql` explains the tables and access rules.
 
-For a project presentation, explain one user journey (search → open a site → inspect its source → answer a quiz), then explain how the same site data appears in a card and as a map marker. Explain that authentication identifies a person, the profile role decides admin access, and RLS checks permissions in the database too. Avoid describing the sample visitor/admin buttons as secure authentication; they exist only for local demonstration.
+For a project presentation, explain one user journey (search → open a site → inspect its source → answer a quiz), then explain how the same site data appears in a card and as a map marker. Explain that authentication identifies a person and RLS protects each account's data.
 
 ## Data sources and attribution
 
@@ -66,7 +66,7 @@ Photographs are loaded from Wikimedia Commons and carry visible photographer/lic
 
 ## Verification checklist
 
-There is no automated test suite yet. After setup, verify both languages, mobile width, search and filters, site detail/source links, map marker popups, all five quiz answers and scoring, registration/sign-in, saved sites, quiz history, and admin-only site creation. In the browser console, check for failed CDN loads. For real role testing, use one normal account and one separately promoted admin account.
+There is no automated test suite yet. After setup, verify both languages, mobile width, search and filters, site details and source links, map popups, quiz answers and scoring, registration/sign-in, saved sites, quiz history, and review submission. Check the browser console for failed CDN loads.
 
 ## AI assistance disclosure
 
@@ -75,7 +75,7 @@ This prototype was created with AI assistance. Before submission, the student sh
 
 ## الوجهات وآراء الزوار
 
-يضم الدليل الآن ٢٤ وجهة مختارة من الإسكندرية وقنا وأسوان وسيناء والفيوم ومطروح، مع الإحداثيات والنبذات ومصادر الصور وتراخيصها في `IaAGE_CREDITS.md`. القائمة تمثيلية وليست حصرًا حرفيًا لكل المواقع في مصر، ويمكن للمدير إضافة مواقع أخرى.
+يضم الدليل الآن ٢٤ وجهة مختارة من الإسكندرية وقنا وأسوان وسيناء والفيوم ومطروح، مع الإحداثيات والنبذات ومصادر الصور وتراخيصها في `IaAGE_CREDITS.md`. القائمة تمثيلية وليست حصرًا حرفيًا لكل المواقع في مصر، ويمكن توسيعها بتحديث بيانات الوجهات في قاعدة البيانات أو مصدر البيانات.
 
-يمكن للزائر المسجل كتابة رأي وتقييم نجوم من صفحة الوجهة. في وضع العرض المحلي تُحفظ الآراء على الجهاز؛ وعند ربط Supabase تُحفظ كمراجعات معلقة، ويمكن للمدير نشرها أو رفضها من أدوات المدير. شغّل ملف `supabase/schema.sql` المحدّث في Supabase لتفعيل المناطق والمراجعات والاختبارات المتغيرة.
+يمكن للزائر المسجل كتابة رأي وتقييم نجوم من صفحة الوجهة. في وضع العرض المحلي تُحفظ الآراء على الجهاز؛ وعند ربط Supabase تُنشر الآراء فور إرسالها. لتحديث قاعدة بيانات أُعدّت سابقًا، شغّل `supabase/remove-admin.sql` مرة واحدة من SQL Editor.
 
