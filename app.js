@@ -127,7 +127,7 @@ const COPY = {
     "saveError": "تعذر حفظ التغيير. حاول مرة أخرى.",
     "modeCloud": "قاعدة البيانات متصلة",
     "modeDemo": "وضع العرض المحلي",
-    "signOut": "خروج",
+    "signOut": "تسجيل الخروج",
     "siteCount": "موقع",
     "readMore": "التفاصيل",
     "authDemoUser": "تجربة مستخدم (محلي)",
