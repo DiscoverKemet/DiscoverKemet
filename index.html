@@ -8,12 +8,12 @@
   <title>DiscoverKemet.com | ذاكرة مصر الحيّة</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" media="print" onload="this.media='all'" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="site-extras.css" />
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
   <script src="config.js"></script>
   <script src="data-sources.js"></script>
   <script src="site-extras.js" defer></script>
@@ -21,7 +21,7 @@
 </head>
 <body class="app-loading">
   <div class="site-loader" id="siteLoader" role="status" aria-live="polite"><div class="loader-eye">𓂀</div><strong>DiscoverKemet.com</strong><h1>نجهّز رحلتك</h1><p>نحمّل الوجهات والخريطة ونتحقق من قاعدة البيانات.</p><div class="loader-track"><span></span></div><small id="loaderStatus">جارٍ تحميل الموقع…</small></div>
-  <script>setTimeout(function(){var l=document.getElementById('siteLoader');if(l){l.classList.add('is-hidden');document.body.classList.remove('app-loading')}},20000)</script>
+  <script>setTimeout(function(){var l=document.getElementById('siteLoader');if(l){l.classList.add('is-hidden');document.body.classList.remove('app-loading')}},1200)</script>
   <div class="announcement"><span class="live-dot"></span><span data-i18n="announcement">اكتشف حكايات مصر، من قلب القاهرة إلى ضفاف النيل</span><span class="announcement-spark">✳</span></div>
   <header class="site-header">
     <a class="brand" href="#home" aria-label="DiscoverKemet.com home"><span class="brand-mark">𓂀</span><span class="brand-copy"><strong>Discover<i>Kemet.com</i></strong><small data-i18n="brandSub">ذاكرة مصر الحيّة</small></span></a>
