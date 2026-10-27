@@ -934,13 +934,6 @@ a {
   border-color:#bf7770;
   background:#32201e;
 }
-.admin-badge {
-  font-size:9px;
-  border:1px solid var(--gold);
-  padding:var(--space-1) var(--space-1);
-  color:var(--gold2);
-  margin-inline-start:var(--space-1);
-}
 .toast {
   position:fixed;
   bottom:20px;
