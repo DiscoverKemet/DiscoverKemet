@@ -3,9 +3,7 @@ create extension if not exists pgcrypto;
 
 create table if not exists public.profiles (
   id uuid primary key references auth.users(id) on delete cascade,
-  display_name text not null default '',
-  role text not null default 'user' check (role in ('user','admin')),
-  created_at timestamptz not null default now()
+  display_name text not null default '',  created_at timestamptz not null default now()
 );
 
 create table if not exists public.sites (
@@ -37,9 +35,14 @@ create table if not exists public.saved_sites (
   primary key (user_id, site_id)
 );
 
-create table if not exists public.tourist_reviews (id uuid primary key default gen_random_uuid(), site_id text not null references public.sites(id) on delete cascade, user_id uuid not null references public.profiles(id) on delete cascade, display_name text not null check (char_length(display_name) between 1 and 60), rating integer not null check (rating between 1 and 5), body text not null check (char_length(body) between 8 and 1000), status text not null default 'pending' check (status in ('pending','approved','rejected')), created_at timestamptz not null default now(), unique(site_id,user_id));
+create table if not exists public.tourist_reviews (id uuid primary key default gen_random_uuid(), site_id text not null references public.sites(id) on delete cascade, user_id uuid not null references public.profiles(id) on delete cascade, display_name text not null check (char_length(display_name) between 1 and 60), rating integer not null check (rating between 1 and 5), body text not null check (char_length(body) between 8 and 1000), status text not null default 'approved' check (status in ('approved','rejected')), created_at timestamptz not null default now(), unique(site_id,user_id));
 
 alter table public.tourist_reviews enable row level security;
+
+update public.tourist_reviews set status = 'approved' where status = 'pending';
+alter table public.tourist_reviews alter column status set default 'approved';
+alter table public.tourist_reviews drop constraint if exists tourist_reviews_status_check;
+alter table public.tourist_reviews add constraint tourist_reviews_status_check check (status in ('approved','rejected'));
 
 create table if not exists public.quiz_attempts (
   id uuid primary key default gen_random_uuid(),
@@ -54,51 +57,29 @@ alter table public.quiz_attempts drop constraint if exists quiz_attempts_total_c
 alter table public.quiz_attempts add constraint quiz_attempts_score_check check (score >= 0 and score <= total);
 alter table public.quiz_attempts add constraint quiz_attempts_total_check check (total in (5,10,20));
 
-create or replace function public.is_admin()
-returns boolean language sql stable security definer set search_path = public
-as $$ select exists (select 1 from public.profiles where id = auth.uid() and role = 'admin'); $$;
-drop policy if exists "Public read approved reviews" on public.tourist_reviews;
-create policy "Public read approved reviews" on public.tourist_reviews for select to anon, authenticated using (status = 'approved' or public.is_admin());
-drop policy if exists "Visitors submit own reviews" on public.tourist_reviews;
-create policy "Visitors submit own reviews" on public.tourist_reviews for insert to authenticated with check (user_id = auth.uid() and status = 'pending');
+-- Manager access and moderation are not part of this site.
 drop policy if exists "Admins moderate reviews" on public.tourist_reviews;
-create policy "Admins moderate reviews" on public.tourist_reviews for update to authenticated using (public.is_admin()) with check (public.is_admin());
-
-
-create or replace function public.handle_new_user()
-returns trigger language plpgsql security definer set search_path = public
-as $$ begin
-  insert into public.profiles (id, display_name, role)
-  values (new.id, coalesce(new.raw_user_meta_data->>'display_name', ''), 'user')
-  on conflict (id) do nothing;
-  return new;
-end; $$;
-
-drop trigger if exists on_auth_user_created on auth.users;
-create trigger on_auth_user_created after insert on auth.users
-for each row execute procedure public.handle_new_user();
-
-alter table public.profiles enable row level security;
-alter table public.sites enable row level security;
-alter table public.saved_sites enable row level security;
-alter table public.quiz_attempts enable row level security;
-
+drop policy if exists "Public read approved reviews" on public.tourist_reviews;
+drop policy if exists "Visitors submit own reviews" on public.tourist_reviews;
 drop policy if exists "Profiles readable by owner or admin" on public.profiles;
-create policy "Profiles readable by owner or admin" on public.profiles for select to authenticated
-using (id = auth.uid() or public.is_admin());
 drop policy if exists "Users update own display name" on public.profiles;
-create policy "Users update own display name" on public.profiles for update to authenticated
-using (id = auth.uid()) with check (id = auth.uid() and (role = 'user' or public.is_admin()));
+drop policy if exists "Admins add sites" on public.sites;
+drop policy if exists "Admins edit sites" on public.sites;
+drop policy if exists "Admins remove sites" on public.sites;
+drop function if exists public.is_admin();
+alter table public.profiles drop column if exists role;
+
+drop policy if exists "Public read approved reviews" on public.tourist_reviews;
+drop policy if exists "Visitors submit reviews" on public.tourist_reviews;
+create policy "Public read approved reviews" on public.tourist_reviews for select to anon, authenticated using (status = 'approved');
+create policy "Visitors submit reviews" on public.tourist_reviews for insert to authenticated with check (user_id = auth.uid() and status = 'approved');
+
+drop policy if exists "Users read own profile" on public.profiles;
+create policy "Users read own profile" on public.profiles for select to authenticated using (id = auth.uid());
+create policy "Users update own display name" on public.profiles for update to authenticated using (id = auth.uid()) with check (id = auth.uid());
 
 drop policy if exists "Sites are public" on public.sites;
 create policy "Sites are public" on public.sites for select to anon, authenticated using (true);
-drop policy if exists "Admins add sites" on public.sites;
-create policy "Admins add sites" on public.sites for insert to authenticated with check (public.is_admin());
-drop policy if exists "Admins edit sites" on public.sites;
-create policy "Admins edit sites" on public.sites for update to authenticated using (public.is_admin()) with check (public.is_admin());
-drop policy if exists "Admins remove sites" on public.sites;
-create policy "Admins remove sites" on public.sites for delete to authenticated using (public.is_admin());
-
 drop policy if exists "Users manage own saved sites" on public.saved_sites;
 create policy "Users manage own saved sites" on public.saved_sites for all to authenticated
 using (user_id = auth.uid()) with check (user_id = auth.uid());
@@ -151,8 +132,6 @@ update public.sites set image='https://commons.wikimedia.org/wiki/Special:FilePa
 update public.sites set image='https://commons.wikimedia.org/wiki/Special:FilePath/Valley_of_the_Kings,_Egypt00.jpg?width=1000', image_credit='ولاء · CC BY-SA 4.0', image_page='https://commons.wikimedia.org/wiki/File:Valley_of_the_Kings,_Egypt00.jpg', image_license='https://creativecommons.org/licenses/by-sa/4.0/' where id='valley-kings';
 update public.sites set image='https://commons.wikimedia.org/wiki/Special:FilePath/Tempel_der_Hatschepsut_(Deir_el-Bahari).jpg?width=1000', image_credit='Nowic · CC BY-SA 2.5', image_page='https://commons.wikimedia.org/wiki/File:Tempel_der_Hatschepsut_(Deir_el-Bahari).jpg', image_license='https://creativecommons.org/licenses/by-sa/2.5/' where id='hatshepsut';
 
--- Promote a registered user to admin after they sign up. Replace the email.
--- update public.profiles set role = 'admin' where id = (select id from auth.users where email = 'student@example.com');
 
 -- Replace image assets previously under attribution licenses with Public Domain/CC0 assets.
 update public.sites set image='https://commons.wikimedia.org/wiki/Special:FilePath/Giza-pyramids.JPG?width=1000', image_credit='Robster1983 · CC0 public domain dedication', image_page='https://commons.wikimedia.org/wiki/File:Giza-pyramids.JPG', image_license='https://creativecommons.org/publicdomain/zero/1.0/' where id='giza';
