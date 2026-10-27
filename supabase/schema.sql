@@ -35,14 +35,11 @@ create table if not exists public.saved_sites (
   primary key (user_id, site_id)
 );
 
-create table if not exists public.tourist_reviews (id uuid primary key default gen_random_uuid(), site_id text not null references public.sites(id) on delete cascade, user_id uuid not null references public.profiles(id) on delete cascade, display_name text not null check (char_length(display_name) between 1 and 60), rating integer not null check (rating between 1 and 5), body text not null check (char_length(body) between 8 and 1000), status text not null default 'approved' check (status in ('approved','rejected')), created_at timestamptz not null default now(), unique(site_id,user_id));
+create table if not exists public.tourist_reviews (id uuid primary key default gen_random_uuid(), site_id text not null references public.sites(id) on delete cascade, user_id uuid not null references public.profiles(id) on delete cascade, display_name text not null check (char_length(display_name) between 1 and 60), rating integer not null check (rating between 1 and 5), body text not null check (char_length(body) between 8 and 1000), status text not null default 'approved' check (status in ('pending','approved','rejected')), created_at timestamptz not null default now(), unique(site_id,user_id));
 
 alter table public.tourist_reviews enable row level security;
 
-update public.tourist_reviews set status = 'approved' where status = 'pending';
 alter table public.tourist_reviews alter column status set default 'approved';
-alter table public.tourist_reviews drop constraint if exists tourist_reviews_status_check;
-alter table public.tourist_reviews add constraint tourist_reviews_status_check check (status in ('approved','rejected'));
 
 create table if not exists public.quiz_attempts (
   id uuid primary key default gen_random_uuid(),
