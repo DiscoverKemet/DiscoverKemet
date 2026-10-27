@@ -959,7 +959,9 @@ const QUIZ = [
         "Luxor"
       ]
     },
-    "answer": 1
+    "answer": 1,
+    "topic": "heritage",
+    "format": "multiple"
   },
   {
     "q": {
@@ -980,7 +982,9 @@ const QUIZ = [
         "Aswan"
       ]
     },
-    "answer": 2
+    "answer": 2,
+    "topic": "heritage",
+    "format": "multiple"
   },
   {
     "q": {
@@ -1001,7 +1005,9 @@ const QUIZ = [
         "Crete"
       ]
     },
-    "answer": 0
+    "answer": 0,
+    "topic": "heritage",
+    "format": "multiple"
   },
   {
     "q": {
@@ -1022,7 +1028,9 @@ const QUIZ = [
         "Giza"
       ]
     },
-    "answer": 1
+    "answer": 1,
+    "topic": "places",
+    "format": "multiple"
   },
   {
     "q": {
@@ -1043,7 +1051,449 @@ const QUIZ = [
         "Nubian Monuments"
       ]
     },
-    "answer": 2
+    "answer": 2,
+    "topic": "heritage",
+    "format": "multiple"
+  },
+  {
+    "q": {
+      "ar": "في أي موقع توجد معابد رمسيس الثاني المنقوشة في الصخر؟",
+      "en": "At which site are the rock-cut temples of Ramesses II?"
+    },
+    "options": {
+      "ar": "أبو سمبل، في النوبة",
+      "en": "Abu Simbel, in Nubia"
+    },
+    "answer": "سقارة",
+    "topic": "heritage",
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/88/"
+  },
+  {
+    "q": {
+      "ar": "على أي ضفة من النيل يقع مجمع معابد الكرنك؟",
+      "en": "On which bank of the Nile is Karnak Temple Complex?"
+    },
+    "options": {
+      "ar": "الضفة الشرقية",
+      "en": "The east bank"
+    },
+    "answer": "الضفة الغربية",
+    "topic": "heritage",
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/87/"
+  },
+  {
+    "q": {
+      "ar": "في أي مدينة تقع قلعة قايتباي؟",
+      "en": "In which city is Qaitbay Citadel?"
+    },
+    "options": {
+      "ar": "الإسكندرية",
+      "en": "Alexandria"
+    },
+    "answer": "القاهرة",
+    "topic": "places",
+    "format": "multiple",
+    "source": "https://egymonuments.gov.eg/en/monuments/qaitbay-fort/"
+  },
+  {
+    "q": {
+      "ar": "في أي محافظة تقع واحة سيوة؟",
+      "en": "In which governorate is Siwa Oasis?"
+    },
+    "options": {
+      "ar": "مطروح",
+      "en": "Matrouh"
+    },
+    "answer": "جنوب سيناء",
+    "topic": "places",
+    "format": "multiple",
+    "source": "https://www.experienceegypt.eg/en/City/15/siwa-oasis"
+  },
+  {
+    "q": {
+      "ar": "في أي مدينة يوجد موقع المسلة الناقصة؟",
+      "en": "In which city is the Unfinished Obelisk?"
+    },
+    "options": {
+      "ar": "أسوان",
+      "en": "Aswan"
+    },
+    "answer": "قنا",
+    "topic": "places",
+    "format": "multiple",
+    "source": "https://egymonuments.gov.eg/en/archaeological-sites/aswan"
+  },
+  {
+    "q": {
+      "ar": "ما الحفريات التي يشتهر بها وادي الحيتان؟",
+      "en": "Which fossils is Wadi Al-Hitan known for?"
+    },
+    "options": {
+      "ar": "حفريات الحيتان",
+      "en": "Whale fossils"
+    },
+    "answer": "حفريات الديناصورات",
+    "topic": "nature",
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/1186"
+  },
+  {
+    "q": {
+      "ar": "ما نوع الصخور التي تشتهر بها الصحراء البيضاء؟",
+      "en": "What kind of rock formations is the White Desert known for?"
+    },
+    "options": {
+      "ar": "تكوينات الطباشير البيضاء",
+      "en": "White chalk formations"
+    },
+    "answer": "صخور بركانية سوداء فقط",
+    "topic": "nature",
+    "format": "multiple",
+    "source": "https://www.experienceegypt.eg/files/Deserts%20and%20Oases-Eng.pdf"
+  },
+  {
+    "q": {
+      "ar": "في أي مدينة يقع الثقب الأزرق المذكور في الدليل؟",
+      "en": "Near which town is the Blue Hole listed in this guide?"
+    },
+    "options": {
+      "ar": "دهب",
+      "en": "Dahab"
+    },
+    "answer": "مرسى علم",
+    "topic": "nature",
+    "format": "multiple",
+    "source": "https://www.experienceegypt.eg/en/region/13/the-red-sea"
+  },
+  {
+    "q": {
+      "ar": "على أي بحر تقع مرسى علم؟",
+      "en": "On which sea is Marsa Alam?"
+    },
+    "options": {
+      "ar": "البحر الأحمر",
+      "en": "The Red Sea"
+    },
+    "answer": "البحر المتوسط",
+    "topic": "nature",
+    "format": "multiple",
+    "source": "https://www.experienceegypt.eg/en/city/21/marsa-alam"
+  },
+  {
+    "q": {
+      "ar": "أي جزر تقع قبالة الغردقة في البحر الأحمر؟",
+      "en": "Which islands lie off Hurghada in the Red Sea?"
+    },
+    "options": {
+      "ar": "جزر الجفتون",
+      "en": "The Giftun Islands"
+    },
+    "answer": "جزيرة إلفنتين",
+    "topic": "nature",
+    "format": "multiple",
+    "source": "https://www.experienceegypt.eg/en/attraction-details/152/island-life"
+  },
+  {
+    "q": {
+      "ar": "هرم زوسر المدرج موجود في سقارة.",
+      "en": "Djoser’s Step Pyramid is at Saqqara."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "heritage",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/86/"
+  },
+  {
+    "q": {
+      "ar": "أبو سمبل جزء من موقع آثار النوبة المسجل لدى اليونسكو.",
+      "en": "Abu Simbel is part of the UNESCO-listed Nubian Monuments."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "heritage",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/88/"
+  },
+  {
+    "q": {
+      "ar": "يقع مجمع معابد الكرنك في مدينة الإسكندرية.",
+      "en": "Karnak Temple Complex is in Alexandria."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 1,
+    "topic": "heritage",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/87/"
+  },
+  {
+    "q": {
+      "ar": "نُقلت معابد فيلة إلى جزيرة أجيليكا.",
+      "en": "The temples of Philae were relocated to Agilkia Island."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "heritage",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/88/"
+  },
+  {
+    "q": {
+      "ar": "يقع وادي الملوك على الضفة الغربية لطيبة القديمة.",
+      "en": "The Valley of the Kings is on the west bank of Ancient Thebes."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "heritage",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/87/"
+  },
+  {
+    "q": {
+      "ar": "تقع مكتبة الإسكندرية في مدينة القاهرة.",
+      "en": "Bibliotheca Alexandrina is in Cairo."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 1,
+    "topic": "places",
+    "format": "truefalse",
+    "source": "https://www.bibalex.org/"
+  },
+  {
+    "q": {
+      "ar": "تقع قلعة قايتباي في الإسكندرية.",
+      "en": "Qaitbay Citadel is in Alexandria."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "places",
+    "format": "truefalse",
+    "source": "https://egymonuments.gov.eg/en/monuments/qaitbay-fort/"
+  },
+  {
+    "q": {
+      "ar": "خان الخليلي سوق تاريخي في القاهرة.",
+      "en": "Khan el-Khalili is a historic market in Cairo."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "places",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/en/attraction-details/292/historic-cairo"
+  },
+  {
+    "q": {
+      "ar": "تقع جزيرة إلفنتين في أسوان.",
+      "en": "Elephantine Island is in Aswan."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "places",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/88/"
+  },
+  {
+    "q": {
+      "ar": "تقع حدائق المنتزه في الإسكندرية.",
+      "en": "Montaza Gardens are in Alexandria."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "places",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/en/attraction-details/140/mosques-churches-and-synagogues"
+  },
+  {
+    "q": {
+      "ar": "يقع وادي الحيتان في محافظة الفيوم.",
+      "en": "Wadi Al-Hitan is in Fayoum Governorate."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "nature",
+    "format": "truefalse",
+    "source": "https://whc.unesco.org/en/list/1186"
+  },
+  {
+    "q": {
+      "ar": "توجد الصحراء البيضاء قرب الفرافرة في الوادي الجديد.",
+      "en": "The White Desert lies near Farafra in New Valley."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "nature",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/files/Deserts%20and%20Oases-Eng.pdf"
+  },
+  {
+    "q": {
+      "ar": "يقع الثقب الأزرق شمال دهب في جنوب سيناء.",
+      "en": "The Blue Hole is north of Dahab in South Sinai."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 0,
+    "topic": "nature",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/en/region/13/the-red-sea"
+  },
+  {
+    "q": {
+      "ar": "تقع واحة سيوة في شبه جزيرة سيناء.",
+      "en": "Siwa Oasis is on the Sinai Peninsula."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 1,
+    "topic": "nature",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/en/City/15/siwa-oasis"
+  },
+  {
+    "q": {
+      "ar": "تقع مرسى علم على ساحل البحر المتوسط.",
+      "en": "Marsa Alam is on the Mediterranean coast."
+    },
+    "options": {
+      "ar": [
+        "صح",
+        "خطأ"
+      ],
+      "en": [
+        "True",
+        "False"
+      ]
+    },
+    "answer": 1,
+    "topic": "nature",
+    "format": "truefalse",
+    "source": "https://www.experienceegypt.eg/en/city/21/marsa-alam"
   }
 ];
 let quizQuestions=[];
