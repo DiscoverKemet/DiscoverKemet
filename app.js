@@ -961,7 +961,8 @@ const QUIZ = [
     },
     "answer": 1,
     "topic": "heritage",
-    "format": "multiple"
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/86/"
   },
   {
     "q": {
@@ -983,8 +984,9 @@ const QUIZ = [
       ]
     },
     "answer": 2,
-    "topic": "heritage",
-    "format": "multiple"
+    "topic": "places",
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/87/"
   },
   {
     "q": {
@@ -1007,7 +1009,8 @@ const QUIZ = [
     },
     "answer": 0,
     "topic": "heritage",
-    "format": "multiple"
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/88/"
   },
   {
     "q": {
@@ -1030,7 +1033,8 @@ const QUIZ = [
     },
     "answer": 1,
     "topic": "places",
-    "format": "multiple"
+    "format": "multiple",
+    "source": "https://egymonuments.gov.eg/en/museums/egyptian-museum"
   },
   {
     "q": {
@@ -1053,7 +1057,8 @@ const QUIZ = [
     },
     "answer": 2,
     "topic": "heritage",
-    "format": "multiple"
+    "format": "multiple",
+    "source": "https://whc.unesco.org/en/list/87/"
   },
   {
     "q": {
