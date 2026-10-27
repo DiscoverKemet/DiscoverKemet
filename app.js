@@ -1061,10 +1061,20 @@ const QUIZ = [
       "en": "At which site are the rock-cut temples of Ramesses II?"
     },
     "options": {
-      "ar": "أبو سمبل، في النوبة",
-      "en": "Abu Simbel, in Nubia"
+      "ar": [
+        "أبو سمبل، في النوبة",
+        "سقارة",
+        "الفيوم",
+        "الإسكندرية"
+      ],
+      "en": [
+        "Abu Simbel, in Nubia",
+        "Saqqara",
+        "Fayoum",
+        "Alexandria"
+      ]
     },
-    "answer": "سقارة",
+    "answer": 0,
     "topic": "heritage",
     "format": "multiple",
     "source": "https://whc.unesco.org/en/list/88/"
@@ -1075,10 +1085,20 @@ const QUIZ = [
       "en": "On which bank of the Nile is Karnak Temple Complex?"
     },
     "options": {
-      "ar": "الضفة الشرقية",
-      "en": "The east bank"
+      "ar": [
+        "الضفة الشرقية",
+        "الضفة الغربية",
+        "جزيرة فيلة",
+        "ساحل البحر الأحمر"
+      ],
+      "en": [
+        "The east bank",
+        "The west bank",
+        "Philae Island",
+        "The Red Sea coast"
+      ]
     },
-    "answer": "الضفة الغربية",
+    "answer": 0,
     "topic": "heritage",
     "format": "multiple",
     "source": "https://whc.unesco.org/en/list/87/"
@@ -1089,10 +1109,20 @@ const QUIZ = [
       "en": "In which city is Qaitbay Citadel?"
     },
     "options": {
-      "ar": "الإسكندرية",
-      "en": "Alexandria"
+      "ar": [
+        "الإسكندرية",
+        "القاهرة",
+        "أسوان",
+        "الأقصر"
+      ],
+      "en": [
+        "Alexandria",
+        "Cairo",
+        "Aswan",
+        "Luxor"
+      ]
     },
-    "answer": "القاهرة",
+    "answer": 0,
     "topic": "places",
     "format": "multiple",
     "source": "https://egymonuments.gov.eg/en/monuments/qaitbay-fort/"
@@ -1103,10 +1133,20 @@ const QUIZ = [
       "en": "In which governorate is Siwa Oasis?"
     },
     "options": {
-      "ar": "مطروح",
-      "en": "Matrouh"
+      "ar": [
+        "مطروح",
+        "جنوب سيناء",
+        "البحر الأحمر",
+        "الفيوم"
+      ],
+      "en": [
+        "Matrouh",
+        "South Sinai",
+        "Red Sea",
+        "Fayoum"
+      ]
     },
-    "answer": "جنوب سيناء",
+    "answer": 0,
     "topic": "places",
     "format": "multiple",
     "source": "https://www.experienceegypt.eg/en/City/15/siwa-oasis"
@@ -1117,10 +1157,20 @@ const QUIZ = [
       "en": "In which city is the Unfinished Obelisk?"
     },
     "options": {
-      "ar": "أسوان",
-      "en": "Aswan"
+      "ar": [
+        "أسوان",
+        "قنا",
+        "الإسكندرية",
+        "القاهرة"
+      ],
+      "en": [
+        "Aswan",
+        "Qena",
+        "Alexandria",
+        "Cairo"
+      ]
     },
-    "answer": "قنا",
+    "answer": 0,
     "topic": "places",
     "format": "multiple",
     "source": "https://egymonuments.gov.eg/en/archaeological-sites/aswan"
@@ -1131,10 +1181,20 @@ const QUIZ = [
       "en": "Which fossils is Wadi Al-Hitan known for?"
     },
     "options": {
-      "ar": "حفريات الحيتان",
-      "en": "Whale fossils"
+      "ar": [
+        "حفريات الحيتان",
+        "حفريات الديناصورات",
+        "أحافير نباتات بحرية فقط",
+        "أدوات حجرية"
+      ],
+      "en": [
+        "Whale fossils",
+        "Dinosaur fossils",
+        "Marine plant fossils only",
+        "Stone tools"
+      ]
     },
-    "answer": "حفريات الديناصورات",
+    "answer": 0,
     "topic": "nature",
     "format": "multiple",
     "source": "https://whc.unesco.org/en/list/1186"
@@ -1145,10 +1205,20 @@ const QUIZ = [
       "en": "What kind of rock formations is the White Desert known for?"
     },
     "options": {
-      "ar": "تكوينات الطباشير البيضاء",
-      "en": "White chalk formations"
+      "ar": [
+        "تكوينات الطباشير البيضاء",
+        "صخور بركانية سوداء فقط",
+        "شعاب مرجانية",
+        "كثبان جليدية"
+      ],
+      "en": [
+        "White chalk formations",
+        "Black volcanic rock only",
+        "Coral reefs",
+        "Glacial dunes"
+      ]
     },
-    "answer": "صخور بركانية سوداء فقط",
+    "answer": 0,
     "topic": "nature",
     "format": "multiple",
     "source": "https://www.experienceegypt.eg/files/Deserts%20and%20Oases-Eng.pdf"
@@ -1159,10 +1229,20 @@ const QUIZ = [
       "en": "Near which town is the Blue Hole listed in this guide?"
     },
     "options": {
-      "ar": "دهب",
-      "en": "Dahab"
+      "ar": [
+        "دهب",
+        "مرسى علم",
+        "الغردقة",
+        "سيوة"
+      ],
+      "en": [
+        "Dahab",
+        "Marsa Alam",
+        "Hurghada",
+        "Siwa"
+      ]
     },
-    "answer": "مرسى علم",
+    "answer": 0,
     "topic": "nature",
     "format": "multiple",
     "source": "https://www.experienceegypt.eg/en/region/13/the-red-sea"
@@ -1173,10 +1253,20 @@ const QUIZ = [
       "en": "On which sea is Marsa Alam?"
     },
     "options": {
-      "ar": "البحر الأحمر",
-      "en": "The Red Sea"
+      "ar": [
+        "البحر الأحمر",
+        "البحر المتوسط",
+        "الخليج العربي",
+        "بحر قزوين"
+      ],
+      "en": [
+        "The Red Sea",
+        "The Mediterranean",
+        "The Arabian Gulf",
+        "The Caspian Sea"
+      ]
     },
-    "answer": "البحر المتوسط",
+    "answer": 0,
     "topic": "nature",
     "format": "multiple",
     "source": "https://www.experienceegypt.eg/en/city/21/marsa-alam"
@@ -1187,10 +1277,20 @@ const QUIZ = [
       "en": "Which islands lie off Hurghada in the Red Sea?"
     },
     "options": {
-      "ar": "جزر الجفتون",
-      "en": "The Giftun Islands"
+      "ar": [
+        "جزر الجفتون",
+        "جزيرة إلفنتين",
+        "جزيرة أجيليكا",
+        "جزيرة تيران"
+      ],
+      "en": [
+        "The Giftun Islands",
+        "Elephantine Island",
+        "Agilkia Island",
+        "Tiran Island"
+      ]
     },
-    "answer": "جزيرة إلفنتين",
+    "answer": 0,
     "topic": "nature",
     "format": "multiple",
     "source": "https://www.experienceegypt.eg/en/attraction-details/152/island-life"
