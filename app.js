@@ -96,9 +96,9 @@ const COPY = {
     "reviewText": "رأيك في المكان",
     "sendReview": "إرسال الرأي",
     "noReviews": "لا توجد آراء منشورة بعد.",
-    "reviewModeration": "تُنشر الآراء بعد مراجعة المدير.",
+    "reviewModeration": "تُنشر الآراء فور إرسالها.",
     "reviewSaved": "تم حفظ رأيك على هذا الجهاز.",
-    "reviewPending": "وصل رأيك وسيظهر بعد المراجعة.",
+    "reviewPublished": "تم نشر رأيك.",
     "reviewError": "تعذر إرسال الرأي.",
     "reviewValidation": "اكتب اسمًا ورأيًا من ٨ أحرف على الأقل.",
     "detail": "نبذة تاريخية",
@@ -113,41 +113,24 @@ const COPY = {
     "yourScore": "نتيجتك",
     "outOf": "من 5",
     "tryAgain": "أعد الاختبار",
-    "admin": "مدير",
     "user": "مستخدم",
     "signedOut": "تم تسجيل الخروج.",
     "loggedIn": "تم تسجيل الدخول بنجاح.",
     "registered": "تم إنشاء حسابك. تحقق من بريدك لتأكيده.",
     "authError": "تعذر إكمال العملية. تحقق من إعداد Supabase وبياناتك.",
     "demoLogin": "وضع العرض: دخول تجريبي",
-    "adminTools": "أدوات المدير",
-    "adminReviews": "مراجعة آراء الزوار",
-    "approveReview": "نشر",
-    "rejectReview": "رفض",
-    "noPendingReviews": "لا توجد آراء بانتظار المراجعة.",
-    "addSite": "إضافة موقع",
-    "addSiteHint": "أدخل بيانات الموقع بالإنجليزية، ثم يمكنك إضافة العربية بتعديل صف قاعدة البيانات.",
-    "siteName": "اسم الموقع",
-    "siteRegion": "المنطقة (north / south / central)",
-    "siteImage": "رابط الصورة",
-    "siteUrl": "رابط المصدر",
-    "siteDescription": "نبذة قصيرة",
-    "saveSite": "حفظ الموقع",
-    "siteAdded": "تمت إضافة الموقع.",
-    "saveError": "تعذر الحفظ. تحقق من صلاحيات المدير.",
+    "saveError": "تعذر حفظ التغيير. حاول مرة أخرى.",
     "modeCloud": "قاعدة البيانات متصلة",
     "modeDemo": "وضع العرض المحلي",
     "signOut": "خروج",
     "siteCount": "موقع",
     "readMore": "التفاصيل",
-    "authDemoAdmin": "تجربة مدير (محلي)",
     "authDemoUser": "تجربة مستخدم (محلي)",
     "status": "الحالة",
     "profile": "حسابك",
     "savedSites": "المواقع المحفوظة",
     "noSaved": "لم تحفظ مواقع بعد.",
     "sources": "مصادر موثوقة",
-    "dashboard": "لوحة المنصة",
     "chooseAnswer": "اختر إجابة:",
     "comingSoon": "هذه الميزة متاحة عند ربط قاعدة البيانات.",
     "passwordHint": "استخدم كلمة مرور طويلة وفريدة؛ الحد الأدنى ١٢ حرفًا عند إنشاء الحساب.",
@@ -251,9 +234,9 @@ const COPY = {
     "reviewText": "Your thoughts about this place",
     "sendReview": "Submit review",
     "noReviews": "No published reviews yet.",
-    "reviewModeration": "Reviews appear after admin moderation.",
+    "reviewModeration": "Reviews are published when submitted.",
     "reviewSaved": "Your review was saved on this device.",
-    "reviewPending": "Your review will appear after moderation.",
+    "reviewPublished": "Your review has been published.",
     "reviewError": "Could not submit the review.",
     "reviewValidation": "Enter a name and a review of at least 8 characters.",
     "detail": "About this site",
@@ -268,41 +251,24 @@ const COPY = {
     "yourScore": "Your score",
     "outOf": "out of",
     "tryAgain": "Try again",
-    "admin": "Admin",
     "user": "Visitor",
     "signedOut": "You have signed out.",
     "loggedIn": "Signed in successfully.",
     "registered": "Account created. Check your email to confirm it.",
     "authError": "Could not complete that action. Check Supabase setup and your details.",
     "demoLogin": "Demo mode: sample login",
-    "adminTools": "Admin tools",
-    "adminReviews": "Review visitor posts",
-    "approveReview": "Approve",
-    "rejectReview": "Reject",
-    "noPendingReviews": "No reviews are waiting for moderation.",
-    "addSite": "Add a site",
-    "addSiteHint": "Enter site details in English. Add Arabic by editing the database row later.",
-    "siteName": "Site name",
-    "siteRegion": "Region (north / south / central)",
-    "siteImage": "Image URL",
-    "siteUrl": "Source URL",
-    "siteDescription": "Short description",
-    "saveSite": "Save site",
-    "siteAdded": "Site added.",
-    "saveError": "Could not save. Check admin permissions.",
+    "saveError": "Could not save that change. Try again.",
     "modeCloud": "Database connected",
     "modeDemo": "Local demo mode",
     "signOut": "Sign out",
     "siteCount": "sites",
     "readMore": "Details",
-    "authDemoAdmin": "Try admin (local)",
     "authDemoUser": "Try visitor (local)",
     "status": "Status",
     "profile": "Your account",
     "savedSites": "Saved sites",
     "noSaved": "No saved sites yet.",
     "sources": "Trusted sources",
-    "dashboard": "Platform dashboard",
     "chooseAnswer": "Choose an answer:",
     "comingSoon": "This feature is available when you connect a database.",
     "safetyKicker": "Visitor guide",
@@ -1109,20 +1075,20 @@ function renderSites(){const count=$('#siteCountValue');if(count)count.textConte
 async function saveSite(id){if(!user){toast(t('needLogin'));openAuth();return}if(dbClient&&!user.demo){const {error}=await dbClient.from('saved_sites').upsert({user_id:user.id,site_id:id});if(error){console.error('Could not save site',error);toast(t('saveError'));return}if(!Array.isArray(cloudSavedSites))cloudSavedSites=[];if(!cloudSavedSites.includes(id))cloudSavedSites.push(id)}else{const saved=getSaved();if(!saved.includes(id))saved.push(id);localStorage.setItem('masr360-saved',JSON.stringify(saved))}toast(t('saved'))}
 function showSite(site){if(!site)return;const area=textOf(site.area)||regionLabel(site.region);openModal('<span class="section-kicker">'+escapeHtml(area)+' · '+escapeHtml(textOf(site.period))+'</span><h2 id="modalTitle">'+escapeHtml(textOf(site.name))+'</h2><p>'+escapeHtml(textOf(site.description))+'</p><p><b>'+t('coordinates')+':</b> '+Number(site.lat).toFixed(4)+', '+Number(site.lng).toFixed(4)+'</p><button class="button button-gold" id="saveSiteButton">♡ '+t('savedSites')+'</button> <a class="site-source" href="'+escapeHtml(site.source||'#')+'" target="_blank" rel="noreferrer">'+t('source')+' ↗</a>');$('#saveSiteButton').onclick=()=>saveSite(site.id)}
 function renderMap(){if(!window.L||!$('#heritageMap'))return;map=L.map('heritageMap',{scrollWheelZoom:false,zoomControl:true}).setView([27.5,30.6],5);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}).addTo(map);sites.forEach(s=>{const icon=L.divIcon({className:'',html:'<div class="map-pin '+(s.type==='museum'?'museum':'')+'"></div>',iconSize:[14,14],iconAnchor:[7,7]});L.marker([s.lat,s.lng],{icon}).addTo(map).bindPopup('<strong>'+escapeHtml(textOf(s.name))+'</strong><br>'+escapeHtml(textOf(s.area)||regionLabel(s.region))+'<br><a href="'+escapeHtml(s.source||'#')+'" target="_blank" rel="noreferrer">'+t('source')+' ↗</a>')})}
-function setSession(session,profile){if(session&&session.user)user={id:session.user.id,email:session.user.email,name:(profile&&profile.display_name)||session.user.user_metadata?.display_name||session.user.email,role:(profile&&profile.role)||'user',demo:false};else user=null;if(!user||user.demo)cloudSavedSites=null;renderAccount()}
-function renderAccount(){const button=$('#accountButton');if(!button)return;if(user)button.innerHTML='<span class="account-icon">♙</span><span>'+escapeHtml(String(user.name||'').split('@')[0])+'</span>'+(user.role==='admin'?'<span class="admin-badge">'+t('admin')+'</span>':'');else button.innerHTML='<span class="account-icon">♙</span><span>'+t('signIn')+'</span>'}
-async function fetchProfile(id){const result=await dbClient.from('profiles').select('display_name,role').eq('id',id).single();return result.data}
-function openAuth(mode){mode=mode||'login';const signup=mode==='signup';openModal('<h2 id="modalTitle">'+t(signup?'signupTitle':'loginTitle')+'</h2><p>'+t(signup?'signupSub':'loginSub')+'</p><form id="authForm">'+(signup?'<label>'+t('name')+'</label><input name="name" required autocomplete="name">':'')+'<label>'+t('email')+'</label><input name="email" type="email" required autocomplete="email"><label>'+t('password')+'</label><input name="password" type="password" required minlength="8" autocomplete="'+(signup?'new-password':'current-password')+'"><button class="button button-gold">'+t(signup?'signup':'login')+'</button></form><p>'+t(signup?'haveAccount':'noAccount')+' <a class="switch-auth" id="switchAuth">'+t(signup?'switchLogin':'createAccount')+'</a></p><p>'+t('demoHint')+'</p>'+(!dbClient?'<button class="button button-outline" id="demoUser">'+t('authDemoUser')+'</button><button class="button button-outline" id="demoAdmin">'+t('authDemoAdmin')+'</button>':'') );$('#switchAuth').onclick=()=>openAuth(signup?'login':'signup');$('#authForm').onsubmit=async e=>{e.preventDefault();if(!dbClient){toast(t('authError'));return}const f=new FormData(e.currentTarget);try{if(signup){const result=await dbClient.auth.signUp({email:f.get('email'),password:f.get('password'),options:{data:{display_name:f.get('name')}}});if(result.error)throw result.error;if(result.data.session)setSession(result.data.session,await fetchProfile(result.data.user.id));toast(t('registered'))}else{const result=await dbClient.auth.signInWithPassword({email:f.get('email'),password:f.get('password')});if(result.error)throw result.error;setSession(result.data.session,await fetchProfile(result.data.user.id));toast(t('loggedIn'))}closeModal()}catch(error){console.error(error);toast(t('authError'))}};if(!dbClient){$('#demoUser').onclick=()=>{user={id:'demo-user',email:'visitor@masr360.demo',name:lang==='ar'?'زائر تجريبي':'Demo visitor',role:'user',demo:true};renderAccount();closeModal();toast(t('loggedIn'))};$('#demoAdmin').onclick=()=>{user={id:'demo-admin',email:'admin@masr360.demo',name:lang==='ar'?'مدير تجريبي':'Demo admin',role:'admin',demo:true};renderAccount();closeModal();toast(t('loggedIn'))}}}
+function setSession(session,profile){if(session&&session.user)user={id:session.user.id,email:session.user.email,name:(profile&&profile.display_name)||session.user.user_metadata?.display_name||session.user.email,demo:false};else user=null;if(!user||user.demo)cloudSavedSites=null;renderAccount()}
+function renderAccount(){const button=$('#accountButton');if(!button)return;if(user)button.innerHTML='<span class="account-icon">♙</span><span>'+escapeHtml(String(user.name||'').split('@')[0])+'</span>';else button.innerHTML='<span class="account-icon">♙</span><span>'+t('signIn')+'</span>}
+async function fetchProfile(id){const result=await dbClient.from('profiles').select('display_name').eq('id',id).single();return result.data}
+function openAuth(mode){mode=mode||'login';const signup=mode==='signup';openModal('<h2 id="modalTitle">'+t(signup?'signupTitle':'loginTitle')+'</h2><p>'+t(signup?'signupSub':'loginSub')+'</p><form id="authForm">'+(signup?'<label>'+t('name')+'</label><input name="name" required autocomplete="name">':'')+'<label>'+t('email')+'</label><input name="email" type="email" required autocomplete="email"><label>'+t('password')+'</label><input name="password" type="password" required minlength="8" autocomplete="'+(signup?'new-password':'current-password')+'"><button class="button button-gold">'+t(signup?'signup':'login')+'</button></form><p>'+t(signup?'haveAccount':'noAccount')+' <a class="switch-auth" id="switchAuth">'+t(signup?'switchLogin':'createAccount')+'</a></p><p>'+t('demoHint')+'</p>'+(!dbClient?'<button class="button button-outline" id="demoUser">'+t('authDemoUser')+'</button>':'') );$('#switchAuth').onclick=()=>openAuth(signup?'login':'signup');$('#authForm').onsubmit=async e=>{e.preventDefault();if(!dbClient){toast(t('authError'));return}const f=new FormData(e.currentTarget);try{if(signup){const result=await dbClient.auth.signUp({email:f.get('email'),password:f.get('password'),options:{data:{display_name:f.get('name')}}});if(result.error)throw result.error;if(result.data.session)setSession(result.data.session,await fetchProfile(result.data.user.id));toast(t('registered'))}else{const result=await dbClient.auth.signInWithPassword({email:f.get('email'),password:f.get('password')});if(result.error)throw result.error;setSession(result.data.session,await fetchProfile(result.data.user.id));toast(t('loggedIn'))}closeModal()}catch(error){console.error(error);toast(t('authError'))}};if(!dbClient)$('#demoUser').onclick=()=>{user={id:'demo-user',email:'visitor@discoverkemet.demo',name:lang==='ar'?'زائر تجريبي':'Demo visitor',demo:true};renderAccount();closeModal();toast(t('loggedIn'))}}
 
-async function reviewModerationDialog(){const result=await dbClient.from('tourist_reviews').select('id,site_id,display_name,rating,body,created_at').eq('status','pending').order('created_at',{ascending:true});const items=result.data||[];const rows=items.map(r=>'<article class="visitor-review"><strong>'+escapeHtml(r.display_name)+' · '+escapeHtml(sites.find(s=>s.id===r.site_id)?textOf(sites.find(s=>s.id===r.site_id).name):r.site_id)+'</strong><span class="review-stars">'+('★'.repeat(r.rating))+'</span><p>'+escapeHtml(r.body)+'</p><button class="button button-gold" data-review-action="approved" data-review-id="'+r.id+'">'+t('approveReview')+'</button> <button class="button button-outline" data-review-action="rejected" data-review-id="'+r.id+'">'+t('rejectReview')+'</button></article>').join('');openModal('<span class="section-kicker">'+t('adminReviews')+'</span><h2 id="modalTitle">'+t('adminReviews')+'</h2>'+(rows||'<p>'+t('noPendingReviews')+'</p>'));$$('[data-review-action]').forEach(b=>b.onclick=async()=>{const update=await dbClient.from('tourist_reviews').update({status:b.dataset.reviewAction}).eq('id',b.dataset.reviewId);if(update.error){toast(t('reviewError'));return}reviewModerationDialog()})}
+
 function startQuiz(){const topics=[['all',t('quizAll')],['heritage',t('quizHeritage')],['places',t('quizPlaces')],['nature',t('quizNature')]];openModal('<span class="section-kicker">'+t('quizChoose')+'</span><h2 id="modalTitle">'+t('quizChoose')+'</h2><form id="quizSetup"><label>'+t('quizCategory')+'</label><select name="topic">'+topics.map(x=>'<option value="'+x[0]+'">'+x[1]+'</option>').join('')+'</select><label>'+t('quizFormat')+'</label><select name="format"><option value="all">'+t('quizAll')+'</option><option value="multiple">'+t('quizMultiple')+'</option><option value="truefalse">'+t('quizTrueFalse')+'</option></select><label>'+t('quizLength')+'</label><select name="count"><option>5</option><option>10</option><option>20</option></select><button class="button button-gold">'+t('quizBegin')+'</button></form>');const form=$('#quizSetup');const pool=()=>{const d=new FormData(form);return QUIZ.filter(q=>(d.get('topic')==='all'||q.topic===d.get('topic'))&&(d.get('format')==='all'||q.format===d.get('format')))};const update=()=>{const n=pool().length;[...form.elements.count.options].forEach(o=>o.disabled=Number(o.value)>n);if(form.elements.count.selectedOptions[0]?.disabled)form.elements.count.value=[...form.elements.count.options].filter(o=>!o.disabled).at(-1)?.value||5};form.onchange=update;update();form.onsubmit=e=>{e.preventDefault();quizQuestions=pool().sort(()=>Math.random()-.5).slice(0,Number(form.elements.count.value));quizIndex=0;quizScore=0;renderQuestion()}}
 function renderQuestion(){const item=quizQuestions[quizIndex],options=item.options[lang];openModal('<span class="section-kicker">'+t('quizKicker')+'</span><div class="quiz-progress"><span style="width:'+Math.floor(quizIndex/quizQuestions.length/100)+'%"></span></div><p>'+(lang==='ar'?'السؤال':'Question')+' '+(quizIndex+1)+' / '+quizQuestions.length+'</p><h2 id="modalTitle">'+escapeHtml(item.q[lang])+'</h2><p>'+t('chooseAnswer')+'</p><div class="quiz-options">'+options.map((o,i)=>'<button class="quiz-option" data-answer="'+i+'">'+escapeHtml(o)+'</button>').join('')+'</div><div id="quizFeedback"></div>');quizLocked=false;$$('[data-answer]').forEach(button=>button.onclick=()=>{if(quizLocked)return;quizLocked=true;const answer=Number(button.dataset.answer);$$('[data-answer]')[item.answer].classList.add('correct');if(answer===item.answer)quizScore++;else button.classList.add('wrong');$('#quizFeedback').innerHTML='<p>'+t(answer===item.answer?'quizCorrect':'quizWrong')+'</p>';const source=document.createElement('a');source.className='site-source';source.href=item.source;source.target='_blank';source.rel='noreferrer';source.textContent=t('quizSource')+' ↗';$('#quizFeedback').append(source);const next=document.createElement('button');next.className='button button-gold';next.textContent=quizIndex===quizQuestions.length-1?t('finish'):t('next');next.onclick=()=>{quizIndex++;if(quizIndex<quizQuestions.length)renderQuestion();else showQuizResult()};$('#quizFeedback').append(next)})}
 async function showQuizResult(){if(dbClient&&user&&!user.demo)await dbClient.from('quiz_attempts').insert({user_id:user.id,score:quizScore,total:quizQuestions.length});openModal('<span class="section-kicker">'+t('quizDone')+'</span><h2 id="modalTitle">'+t('yourScore')+'</h2><p style="font:48px DM Sans,sans-serif;color:#dfc27b;margin:24px 0">'+quizScore+' <small style="font-size:18px">'+t('outOf')+' '+quizQuestions.length+'</small></p><button class="button button-gold" id="retryQuiz">'+t('tryAgain')+'</button>');$('#retryQuiz').onclick=startQuiz}
-function addSiteDialog(){openModal(`<span class="section-kicker">${t('adminTools')}</span><h2 id="modalTitle">${t('addSite')}</h2><p>${t('addSiteHint')}</p><form id="newSiteForm"><label>${t('siteName')}</label><input required name="name"><label>${t('siteRegion')}</label><input required name="region" value="north"><label>${t('siteImage')}</label><input required type="url" name="image"><label>${t('siteUrl')}</label><input required type="url" name="source"><label>${t('siteDescription')}</label><input required name="description"><button class="button button-gold">${t('saveSite')}</button></form>`);$('#newSiteForm').onsubmit=async e=>{e.preventDefault();if(!dbClient||user?.role!=='admin'){toast(t('saveError'));return}const f=new FormData(e.currentTarget);const row={id:crypto.randomUUID(),name:{en:f.get('name'),ar:f.get('name')},description:{en:f.get('description'),ar:f.get('description')},region:f.get('region'),type:'ancient',lat:26.8,lng:30.8,period:{en:'Added by platform admin',ar:'أضيف بواسطة مدير المنصة'},image:f.get('image'),source:f.get('source')};const {data,error}=await dbClient.from('sites').insert(row).select().single();if(error){console.error(error);toast(t('saveError'));return}sites.push(data);renderSites();if(map){map.remove();renderMap()}toast(t('siteAdded'));closeModal()}}
+
 async function loadSites(){if(!dbClient)return;const {data,error}=await dbClient.from('sites').select('*').order('created_at');if(error){console.error('Could not load sites from Supabase',error);return}if(data?.length){sites=data;renderSites();if(map){map.remove();renderMap()}}}
 async function loadSavedSites(userId){if(!dbClient||!userId)return;const {data,error}=await dbClient.from('saved_sites').select('site_id').eq('user_id',userId);if(error){console.error('Could not load saved sites from Supabase',error);return}cloudSavedSites=(data||[]).map(row=>row.site_id)}
 async function initSupabase(){const cfg=window.MASR_CONFIG||{};if(!cfg.supabaseUrl||!cfg.supabaseAnonKey||!window.supabase?.createClient)return;try{dbClient=window.supabase.createClient(cfg.supabaseUrl,cfg.supabaseAnonKey);await loadSites();const {data:{session}}=await dbClient.auth.getSession();if(session){const profile=await fetchProfile(session.user.id);setSession(session,profile);await loadSavedSites(session.user.id)}dbClient.auth.onAuthStateChange(async(_event,session)=>{if(session){const profile=await fetchProfile(session.user.id);setSession(session,profile);await loadSavedSites(session.user.id)}else setSession(null)});$('#accountButton').dataset.mode='cloud';$('#accountButton').title=t('modeCloud')}catch(e){console.error('Supabase initialization failed',e);dbClient=null}}
-function bindEvents(){$('#languageToggle').onclick=()=>{lang=lang==='ar'?'en':'ar';applyLanguage()};$('#siteSearch').addEventListener('input',renderSites);$('#filterRow').addEventListener('click',e=>{const btn=e.target.closest('[data-filter]');if(!btn)return;filter=btn.dataset.filter;$$('.filter-chip').forEach(x=>x.classList.toggle('selected',x===btn));renderSites()});$('#siteGrid').addEventListener('click',e=>{if(e.target.closest('[data-source]'))return;const card=e.target.closest('[data-site-id]');if(card)showSite(sites.find(s=>String(s.id)===card.dataset.siteId))});$('#siteGrid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[data-site-id]'))showSite(sites.find(s=>String(s.id)===e.target.dataset.siteId))});$('#startQuiz').onclick=startQuiz;$('#accountButton').onclick=()=>{if(user){if(user.role==='admin'&&dbClient&&!user.demo){openModal(`<span class="section-kicker">${t('dashboard')}</span><h2 id="modalTitle">${t('adminTools')}</h2><p>${t('modeCloud')}</p><button class="button button-gold" id="adminAdd">${t('addSite')}</button><button class="button button-outline" id="adminReviews">${t('adminReviews')}</button><button class="button button-outline" id="logoutButton">${t('signOut')}</button>`);$('#adminAdd').onclick=addSiteDialog;$('#adminReviews').onclick=reviewModerationDialog;$('#logoutButton').onclick=signOut}else openModal(`<span class="section-kicker">${t('profile')}</span><h2 id="modalTitle">${escapeHtml(user.name)}</h2><p>${escapeHtml(user.email)} · ${user.role==='admin'?t('admin'):t('user')}</p><p>${t('savedSites')}: ${getSaved().length}</p><button class="button button-outline" id="logoutButton">${t('signOut')}</button>`);$('#logoutButton').onclick=signOut}else openAuth()};$('#joinButton').onclick=()=>user?$('#accountButton').click():openAuth();$('#modalClose').onclick=closeModal;$('#modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#siteSearch').focus()}});$('#menuToggle').onclick=()=>$('.main-nav').classList.toggle('open');$$('.nav-link').forEach(a=>a.onclick=()=>$('.main-nav').classList.remove('open'))}
+function bindEvents(){$('#languageToggle').onclick=()=>{lang=lang==='ar'?'en':'ar';applyLanguage()};$('#siteSearch').addEventListener('input',renderSites);$('#filterRow').addEventListener('click',e=>{const btn=e.target.closest('[data-filter]');if(!btn)return;filter=btn.dataset.filter;$$('.filter-chip').forEach(x=>x.classList.toggle('selected',x===btn));renderSites()});$('#siteGrid').addEventListener('click',e=>{if(e.target.closest('[data-source]'))return;const card=e.target.closest('[data-site-id]');if(card)showSite(sites.find(s=>String(s.id)===card.dataset.siteId))});$('#siteGrid').addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('[data-site-id]'))showSite(sites.find(s=>String(s.id)===e.target.dataset.siteId))});$('#startQuiz').onclick=startQuiz;$('#accountButton').onclick=()=>{if(user){openModal(`<span class="section-kicker">${t('profile')}</span><h2 id="modalTitle">${escapeHtml(user.name)}</h2><p>${escapeHtml(user.email)}</p><p>${t('savedSites')}: ${getSaved().length}</p><button class="button button-outline" id="logoutButton">${t('signOut')}</button>`);$('#logoutButton').onclick=signOut}else openAuth()};$('#joinButton').onclick=()=>user?$('#accountButton').click():openAuth();$('#modalClose').onclick=closeModal;$('#modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();$('#siteSearch').focus()}});$('#menuToggle').onclick=()=>$('.main-nav').classList.toggle('open');$$('.nav-link').forEach(a=>a.onclick=()=>$('.main-nav').classList.remove('open'))}
 async function signOut(){if(dbClient&&!user?.demo)await dbClient.auth.signOut();user=null;renderAccount();closeModal();toast(t('signedOut'))}
 async function boot(){applyLanguage();bindEvents();renderMap();await initSupabase();renderAccount()}
 document.addEventListener('DOMContentLoaded',boot);
@@ -1142,6 +1108,6 @@ showSite=async function(site){
   reviews.forEach(function(r){const a=document.createElement('article');a.className='visitor-review';const n=document.createElement('strong');n.textContent=r.display_name||'Visitor';const stars=document.createElement('span');stars.className='review-stars';stars.textContent='★'.repeat(Number(r.rating)||0);const b=document.createElement('p');b.textContent=r.body;a.append(n,stars,b);list.append(a)});
   const nameInput=panel.querySelector('[name="display_name"]');nameInput.value=user&&user.name?user.name.split('@')[0]:'';
   host.append(panel);
-  panel.querySelector('form').onsubmit=async function(e){e.preventDefault();const f=new FormData(e.currentTarget),row={display_name:String(f.get('display_name')).trim(),rating:Number(f.get('rating')),body:String(f.get('body')).trim()};if(!row.display_name||row.body.length<8){toast(t('reviewValidation'));return}if(dbClient&&!user){toast(t('needLogin'));openAuth();return}if(dbClient&&user&&!user.demo){const r=await dbClient.from('tourist_reviews').insert({site_id:site.id,user_id:user.id,display_name:row.display_name,rating:row.rating,body:row.body,status:'pending'});if(r.error){toast(t('reviewError'));return}toast(t('reviewPending'));return}let saved=[];try{saved=JSON.parse(localStorage.getItem('masr360-reviews-'+site.id)||'[]')}catch(e){}saved.unshift(row);localStorage.setItem('masr360-reviews-'+site.id,JSON.stringify(saved));toast(t('reviewSaved'));showSite(site)};
+  panel.querySelector('form').onsubmit=async function(e){e.preventDefault();const f=new FormData(e.currentTarget),row={display_name:String(f.get('display_name')).trim(),rating:Number(f.get('rating')),body:String(f.get('body')).trim()};if(!row.display_name||row.body.length<8){toast(t('reviewValidation'));return}if(dbClient&&!user){toast(t('needLogin'));openAuth();return}if(dbClient&&user&&!user.demo){const r=await dbClient.from('tourist_reviews').insert({site_id:site.id,user_id:user.id,display_name:row.display_name,rating:row.rating,body:row.body,status:'approved'});if(r.error){toast(t('reviewError'));return}toast(t('reviewPublished'));showSite(site);return}let saved=[];try{saved=JSON.parse(localStorage.getItem('masr360-reviews-'+site.id)||'[]')}catch(e){}saved.unshift(row);localStorage.setItem('masr360-reviews-'+site.id,JSON.stringify(saved));toast(t('reviewSaved'));showSite(site)};
  },0);
 };
