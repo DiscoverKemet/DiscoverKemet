@@ -18,7 +18,11 @@
       galleryTitle: 'صور المكان', galleryLoading: 'جارٍ البحث عن صور للموقع من مصادر مفتوحة…',
       galleryEmpty: 'لم نعثر حاليًا على خمس صور متاحة برخصة الملكية العامة أو CC0 لهذا المكان.',
       galleryError: 'تعذّر تحميل الصور الآن. اضغط هنا للمحاولة مرة أخرى عند توفر الإنترنت.', photoCredit: 'المصوّر', photoLicense: 'الترخيص',
-      galleryCount: n => n + ' صور متاحة — تُستبعد النتائج التي تذكر أشخاصًا في عنوانها'
+      galleryCount: n => n + ' صور متاحة — تُستبعد النتائج التي تذكر أشخاصًا في عنوانها',
+      visitedTitle: 'الأماكن التي زرتها', visitedSubtitle: 'سجّل زيارتك بنفسك من صفحة المكان لتجده هنا لاحقًا.',
+      visitedEmpty: 'لم تسجّل زيارة بعد. افتح أي مكان واضغط «تمت الزيارة».', visitedClear: 'مسح سجل الزيارات',
+      visitedCount: n => 'سجل الزيارات: ' + n, visitButton: 'تمت الزيارة', visitedButtonMarked: 'زرتها ✓ · اضغط لإزالة العلامة',
+      visitAdded: 'أُضيف المكان إلى سجل زياراتك.', visitRemoved: 'أُزيل المكان من سجل زياراتك.', visitStorage: 'يُحفظ السجل على هذا الجهاز.'
     },
     en: {
       checking: 'Checking database connection…',
@@ -36,7 +40,11 @@
       galleryTitle: 'Place photos', galleryLoading: 'Finding openly licensed photos of this place…',
       galleryEmpty: 'Fewer than five public-domain or CC0 photos are currently available for this place.',
       galleryError: 'Photos could not be loaded. Click here to retry when online.', photoCredit: 'Photographer', photoLicense: 'License',
-      galleryCount: n => n + ' available photos · titles mentioning people are filtered out'
+      galleryCount: n => n + ' available photos · titles mentioning people are filtered out',
+      visitedTitle: 'Places I have visited', visitedSubtitle: 'Mark a place as visited on its page to keep it here.',
+      visitedEmpty: 'No visits recorded yet. Open a place and select “Visited”.', visitedClear: 'Clear visit history',
+      visitedCount: n => 'Places visited: ' + n, visitButton: 'Mark as visited', visitedButtonMarked: 'Visited ✓ · click to remove',
+      visitAdded: 'Added to your visited places.', visitRemoved: 'Removed from your visited places.', visitStorage: 'Saved on this device.'
     }
   };
   let currentStatus = ['checking', undefined];
@@ -119,6 +127,7 @@
     const title = body.querySelector('#modalTitle');
     const records = window.DISCOVER_KEMET_SOURCES || [];
     const current = records.find(site => [site.name?.ar, site.name?.en].includes(title?.textContent?.trim()));
+    if (current) addVisitedAction(body, current);
     if (current && !body.querySelector('[data-photo-gallery]')) loadPhotoGallery(body, current);
   }
   const galleryCache = new Map();
@@ -300,6 +309,82 @@
     if (details) details.open = false;
   }
 
+
+  const visitedStorageKey = 'discoverkemet-visited-v1';
+  function getVisitedIds() {
+    try { const value = JSON.parse(localStorage.getItem(visitedStorageKey) || '[]'); return Array.isArray(value) ? value.map(String) : []; }
+    catch (error) { return []; }
+  }
+  function saveVisitedIds(ids) {
+    try { localStorage.setItem(visitedStorageKey, JSON.stringify(ids)); }
+    catch (error) { console.warn('Could not save visited places on this device:', error); }
+  }
+  function updateVisitedLabels() {
+    const copy = labels[language()];
+    const nav = document.getElementById('visitedNavLink');
+    if (nav) { const title = nav.querySelector('[data-visited-label]'); if (title) title.textContent = copy.visitedTitle; }
+    const title = document.getElementById('visitedTitle'); if (title) title.textContent = copy.visitedTitle;
+    const subtitle = document.getElementById('visitedSubtitle'); if (subtitle) subtitle.textContent = copy.visitedSubtitle;
+    const empty = document.getElementById('visitedEmpty'); if (empty) empty.textContent = copy.visitedEmpty;
+    const clear = document.getElementById('clearVisited'); if (clear) clear.textContent = copy.visitedClear;
+    const storage = document.getElementById('visitedStorage'); if (storage) storage.textContent = copy.visitStorage;
+  }
+  function renderVisited() {
+    const grid = document.getElementById('visitedGrid');
+    if (!grid || typeof sites === 'undefined') return;
+    const ids = getVisitedIds();
+    const places = ids.map(id => sites.find(site => String(site.id) === id)).filter(Boolean);
+    const count = document.getElementById('visitedCount'); if (count) count.textContent = labels[language()].visitedCount(places.length);
+    const badge = document.getElementById('visitedNavCount'); if (badge) badge.textContent = new Intl.NumberFormat(language() === 'ar' ? 'ar-EG' : 'en').format(places.length);
+    const empty = document.getElementById('visitedEmpty'); if (empty) empty.hidden = places.length > 0;
+    const clear = document.getElementById('clearVisited'); if (clear) clear.hidden = places.length === 0;
+    grid.innerHTML = places.map((site, index) => siteCard(site, index)).join('');
+    enhanceCards(grid);
+  }
+  function showVisitNotice(message) {
+    const node = document.getElementById('toast');
+    if (!node) return;
+    node.textContent = message; node.classList.add('show');
+    window.setTimeout(() => node.classList.remove('show'), 2500);
+  }
+  function addVisitedAction(body, site) {
+    if (body.querySelector('[data-visited-place]')) return;
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'button button-gold visited-action'; button.dataset.visitedPlace = site.id;
+    const update = () => {
+      const marked = getVisitedIds().includes(String(site.id));
+      button.textContent = marked ? labels[language()].visitedButtonMarked : labels[language()].visitButton;
+      button.setAttribute('aria-pressed', String(marked));
+    };
+    update();
+    button.addEventListener('click', () => {
+      const ids = getVisitedIds(), id = String(site.id), exists = ids.includes(id);
+      saveVisitedIds(exists ? ids.filter(item => item !== id) : [...ids, id]);
+      update(); renderVisited();
+      showVisitNotice(labels[language()][exists ? 'visitRemoved' : 'visitAdded']);
+    });
+    const source = body.querySelector('.site-source');
+    if (source) source.insertAdjacentElement('beforebegin', button); else body.append(button);
+  }
+  function initializeVisitedPage() {
+    updateVisitedLabels(); renderVisited();
+    document.getElementById('clearVisited')?.addEventListener('click', () => {
+      saveVisitedIds([]); renderVisited(); showVisitNotice(labels[language()].visitRemoved);
+    });
+    const grid = document.getElementById('visitedGrid');
+    grid?.addEventListener('click', event => {
+      if (event.target.closest('[data-source]')) return;
+      const card = event.target.closest('[data-site-id]');
+      if (card) { const site = sites.find(item => String(item.id) === card.dataset.siteId); if (site) showSite(site); }
+    });
+    grid?.addEventListener('keydown', event => {
+      if (event.key === 'Enter' && event.target.matches('[data-site-id]')) {
+        const site = sites.find(item => String(item.id) === event.target.dataset.siteId); if (site) showSite(site);
+      }
+    });
+    window.addEventListener('storage', event => { if (event.key === visitedStorageKey) renderVisited(); });
+  }
+
   const popupLabel = () => labels[language()].map + ' ↗';
   if (window.L?.Marker?.prototype) {
     const bindPopup = window.L.Marker.prototype.bindPopup;
@@ -312,15 +397,16 @@
     };
   }
   document.addEventListener('DOMContentLoaded', () => {
+    initializeVisitedPage();
     renderSources();
     enhanceCards(document);
     enhanceModal(document);
     const cards = document.getElementById('siteGrid');
-    if (cards) new MutationObserver(() => { enhanceCards(cards); renderSources(); }).observe(cards, {childList: true, subtree: true});
+    if (cards) new MutationObserver(() => { enhanceCards(cards); renderSources(); renderVisited(); }).observe(cards, {childList: true, subtree: true});
     const modal = document.getElementById('modal');
     if (modal) new MutationObserver(() => enhanceModal(modal)).observe(modal, {childList: true, subtree: true});
     document.getElementById('languageToggle')?.addEventListener('click', () => {
-      setTimeout(() => { setStatus(currentStatus[0], currentStatus[1]); enhanceCards(document); enhanceModal(document); renderSources(); }, 0);
+      setTimeout(() => { setStatus(currentStatus[0], currentStatus[1]); enhanceCards(document); enhanceModal(document); renderSources(); updateVisitedLabels(); renderVisited(); }, 0);
     });
   }, { once: true });
 
