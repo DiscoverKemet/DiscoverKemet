@@ -1,5 +1,5 @@
 -- Run once in Supabase SQL Editor to remove the old manager system.
--- Existing pending visitor reviews are published so they are not stranded.
+-- New visitor reviews are published immediately. Existing pending reviews stay private.
 begin;
 
 drop policy if exists "Admins moderate reviews" on public.tourist_reviews;
@@ -13,10 +13,7 @@ drop policy if exists "Admins remove sites" on public.sites;
 drop function if exists public.is_admin();
 alter table public.profiles drop column if exists role;
 
-update public.tourist_reviews set status = 'approved' where status = 'pending';
 alter table public.tourist_reviews alter column status set default 'approved';
-alter table public.tourist_reviews drop constraint if exists tourist_reviews_status_check;
-alter table public.tourist_reviews add constraint tourist_reviews_status_check check (status in ('approved','rejected'));
 
 drop policy if exists "Public read approved reviews" on public.tourist_reviews;
 drop policy if exists "Visitors submit reviews" on public.tourist_reviews;
