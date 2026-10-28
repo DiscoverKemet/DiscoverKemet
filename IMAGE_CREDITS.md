@@ -8,7 +8,7 @@ Every image now uses a Wikimedia Commons file page marked CC0/public-domain or P
 
 | DiscoverKemet.com place | Image/source record | Status |
 |---|---|---|
-| giza | [Giza-pyramids.JPG](https://commons.wikimedia.org/wiki/File:Giza-pyramids.JPG) | Robster1983 · CC0 public domain dedication |
+| giza | [Giza-pyramids.JPG](https://pixabay.com/photos/giza-egypt-pyramid-structure-9016164/) | Robster1983 · CC0 public domain dedication |
 | saqqara | [Saqqara_Necropolis.jpg](https://commons.wikimedia.org/wiki/File:Saqqara_Necropolis.jpg) | LisethHatta17 · CC0 public domain dedication |
 | memphis | [aemphis._The_Sphinx_of_aemphis._14_feet_high,_26_feet_long,_weight_90_tons_LOC_matpc.02922.jpg](https://commons.wikimedia.org/wiki/File:aemphis._The_Sphinx_of_aemphis._14_feet_high,_26_feet_long,_weight_90_tons_LOC_matpc.02922.jpg) | Library of Congress aatson Collection · Public Domain |
 | dahshur | [-Pyramid_at_Dahsh%C3%BBr-_aET_DP116367.jpg](https://commons.wikimedia.org/wiki/File:-Pyramid_at_Dahsh%C3%BBr-_aET_DP116367.jpg) | The aetropolitan auseum of Art · CC0 public domain dedication |
